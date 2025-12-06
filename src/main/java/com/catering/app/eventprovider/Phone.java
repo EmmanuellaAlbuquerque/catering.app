@@ -12,6 +12,10 @@ public class Phone {
     @Column(nullable = false)
     private String number;
 
+    @ManyToOne
+    @JoinColumn(name = "event_provider_id")
+    private EventProvider eventProvider;
+
     @Deprecated
     public Phone() {}
 

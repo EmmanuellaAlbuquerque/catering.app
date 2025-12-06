@@ -21,6 +21,10 @@ public class Address {
     @Column(name = "zipcode", nullable = false)
     private String zipCode;
 
+    @ManyToOne
+    @JoinColumn(name = "event_provider_id")
+    private EventProvider eventProvider;
+
     @Deprecated
     public Address() {}
 

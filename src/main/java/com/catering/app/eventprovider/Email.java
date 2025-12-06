@@ -12,6 +12,10 @@ public class Email {
     @Column(nullable = false)
     private String email;
 
+    @ManyToOne
+    @JoinColumn(name = "event_provider_id")
+    private EventProvider eventProvider;
+
     @Deprecated
     public Email() {}
 

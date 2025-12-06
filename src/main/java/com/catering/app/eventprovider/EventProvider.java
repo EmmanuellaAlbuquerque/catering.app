@@ -2,6 +2,9 @@ package com.catering.app.eventprovider;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class EventProvider {
 
@@ -20,6 +23,24 @@ public class EventProvider {
 
     @Column(nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "eventProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Phone> phones = new HashSet<>();
+
+    @OneToMany(mappedBy = "eventProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Email> emails = new HashSet<>();
+
+    @OneToMany(mappedBy = "eventProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Address> addresses = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = "event_provider_payment_method",
+            joinColumns = @JoinColumn(name = "event_provider_id")
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
+    private Set<PaymentMethod> paymentMethods = new HashSet<>();
 
     @Deprecated
     public EventProvider() {}
