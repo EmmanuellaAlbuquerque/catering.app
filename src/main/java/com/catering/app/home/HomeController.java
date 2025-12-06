@@ -1,4 +1,4 @@
-package com.catering.app.controller;
+package com.catering.app.home;
 
 
 import org.springframework.stereotype.Controller;
