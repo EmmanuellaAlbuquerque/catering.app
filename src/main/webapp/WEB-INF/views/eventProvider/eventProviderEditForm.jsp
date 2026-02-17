@@ -17,16 +17,9 @@
     <shared:message />
 
     <form:form modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit">
-        <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do Fornecedor (${eventProviderUpdateRequest.id})"/>
+        <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do Fornecedor do Evento (${eventProviderUpdateRequest.id})"/>
     </form:form>
 
-    <script src="/js/formUtils/IncrementalField.js" type="text/javascript"></script>
-    <script src="/js/formUtils/CnpjInputMask.js" type="text/javascript"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            new CnpjInputMask('registrationNumber');
-        });
-    </script>
+    <shared:endScripts />
 </body>
 </html>

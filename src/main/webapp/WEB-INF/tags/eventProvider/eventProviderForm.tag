@@ -14,7 +14,7 @@
         <form:input path="id" type="hidden" />
     </c:if>
 
-    <h3>${formMessageText}</h3>
+    <h2>${formMessageText}</h2>
     <hr class="separator">
 
     <div class="form-block">
@@ -81,6 +81,15 @@
         <label><spring:message code="eventProviderDto.neighborhood" /></label>
         <form:input path="neighborhood" />
         <form:errors path="neighborhood" class="form-error" />
+    </div>
+
+    <div class="form-block">
+        <label>Fotos do Local / Evento</label>
+        <div class="upload-area" id="drop-zone-main">
+            <span class="upload-tip">Arrastar imagens ou clique para selecionar</span>
+            <input type="file" name="images" class="upload-input" id="imageInputMain" multiple accept="image/*" >
+            <div class="photo-grid" id="gallery-main"></div>
+        </div>
     </div>
 
     <div class="form-block">

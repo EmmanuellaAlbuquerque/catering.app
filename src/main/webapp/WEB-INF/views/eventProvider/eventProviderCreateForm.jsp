@@ -20,13 +20,6 @@
         <eventProvider:eventProviderForm modelAttrName="eventProviderCreateRequest" formMessageText="Novo Fornecedor" />
     </form:form>
 
-    <script src="/js/formUtils/IncrementalField.js" type="text/javascript"></script>
-    <script src="/js/formUtils/CnpjInputMask.js" type="text/javascript"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            new CnpjInputMask('registrationNumber');
-        });
-    </script>
+    <shared:endScripts />
 </body>
 </html>
