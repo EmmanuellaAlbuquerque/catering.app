@@ -1,4 +1,4 @@
-package com.catering.app.eventprovider;
+package com.catering.app.eventprovider.domain;
 
 public enum PaymentMethod {
     PIX,

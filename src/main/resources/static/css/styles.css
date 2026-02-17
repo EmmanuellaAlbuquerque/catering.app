@@ -1,0 +1,9 @@
+.form-container {
+    width: 330px;
+    margin: 0 auto;
+}
+
+.form-block {
+    display: flex;
+    flex-direction: column;
+}

@@ -11,20 +11,18 @@ CREATE TABLE IF NOT EXISTS event_provider
 
 CREATE TABLE IF NOT EXISTS phone
 (
-    id                BIGINT       NOT NULL AUTO_INCREMENT UNIQUE,
     number            VARCHAR(255) NOT NULL,
     event_provider_id BIGINT       NOT NULL,
-    PRIMARY KEY (id),
+    PRIMARY KEY (event_provider_id, number),
     CONSTRAINT fk_phone_event_provider FOREIGN KEY (event_provider_id) REFERENCES event_provider (id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE IF NOT EXISTS email
 (
-    id                BIGINT       NOT NULL AUTO_INCREMENT UNIQUE,
     email             VARCHAR(255) NOT NULL,
     event_provider_id BIGINT       NOT NULL,
-    PRIMARY KEY (id),
+    PRIMARY KEY (event_provider_id, email),
     CONSTRAINT fk_email_event_provider FOREIGN KEY (event_provider_id) REFERENCES event_provider (id) ON DELETE CASCADE
 );
 
@@ -32,7 +30,7 @@ CREATE TABLE IF NOT EXISTS email
 CREATE TABLE IF NOT EXISTS address
 (
     id                BIGINT       NOT NULL AUTO_INCREMENT UNIQUE,
-    event_provider_id BIGINT       NOT NULL UNIQUE,
+    event_provider_id BIGINT       NOT NULL,
     neighborhood      VARCHAR(255) NOT NULL,
     state             VARCHAR(255) NOT NULL,
     city              VARCHAR(255) NOT NULL,
@@ -42,10 +40,10 @@ CREATE TABLE IF NOT EXISTS address
 );
 
 
-CREATE TABLE IF NOT EXISTS event_provider_payment_method
+CREATE TABLE IF NOT EXISTS payment_method
 (
     event_provider_id BIGINT       NOT NULL,
     payment_method    VARCHAR(255) NOT NULL,
     PRIMARY KEY (event_provider_id, payment_method),
-    CONSTRAINT fk_event_provider_payment_method FOREIGN KEY (event_provider_id) REFERENCES event_provider (id) ON DELETE CASCADE
+    CONSTRAINT fk_payment_method_event_provider FOREIGN KEY (event_provider_id) REFERENCES event_provider (id) ON DELETE CASCADE
 );
