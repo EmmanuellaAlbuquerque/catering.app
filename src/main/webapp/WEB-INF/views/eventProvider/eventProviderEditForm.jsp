@@ -14,12 +14,10 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Editar Fornecedor de Eventos</h1>
-
     <shared:message />
 
     <form:form modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit">
-        <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" />
+        <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do Fornecedor (${eventProviderUpdateRequest.id})"/>
     </form:form>
 
     <script src="/js/formUtils/IncrementalField.js" type="text/javascript"></script>

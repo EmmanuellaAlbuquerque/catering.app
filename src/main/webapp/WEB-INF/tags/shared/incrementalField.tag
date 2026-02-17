@@ -18,7 +18,7 @@
             <c:choose>
                 <c:when test="${not empty list}">
                     <c:forEach items="${list}" var="item" varStatus="status">
-                        <div>
+                        <div class="input-group-dynamic">
                             <label>${inputTextContent} ${status.count}</label>
 
                             <input type="${type}" name="${name}[${status.index}]" value="${item}" class="${label}-input" placeholder="${placeholder}" />
@@ -26,7 +26,7 @@
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
-                    <div>
+                    <div class="input-group-dynamic">
                         <label><spring:message code="eventProviderDto.${label}" /> 1</label>
                         <input type="${type}" name="${name}[0]" class="${label}-input" placeholder="${placeholder}" />
                     </div>
@@ -37,7 +37,7 @@
         <form:errors path="${name}" class="form-error" />
     </div>
 
-    <button type="button" id="add-${label}">
+    <button type="button" id="add-${label}" class="btn-add">
         + Adicionar outro <spring:message code="eventProviderDto.${label}" />
     </button>
 </div>

@@ -14,12 +14,10 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Cadastrar Fornecedor de Eventos</h1>
-
     <shared:message />
 
     <form:form modelAttribute="eventProviderCreateRequest" method="post" action="/events/create">
-        <eventProvider:eventProviderForm modelAttrName="eventProviderCreateRequest" />
+        <eventProvider:eventProviderForm modelAttrName="eventProviderCreateRequest" formMessageText="Novo Fornecedor" />
     </form:form>
 
     <script src="/js/formUtils/IncrementalField.js" type="text/javascript"></script>

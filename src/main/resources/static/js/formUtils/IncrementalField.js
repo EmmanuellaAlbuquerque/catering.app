@@ -30,6 +30,7 @@ class IncrementalField {
         input.placeholder = this.placeholder;
 
         const phoneContainer = document.createElement("div");
+        phoneContainer.className = 'input-group-dynamic';
         phoneContainer.appendChild(label);
         phoneContainer.appendChild(input);
 
@@ -54,6 +55,7 @@ class IncrementalField {
         const removeBtn = document.createElement('button');
         removeBtn.innerText = 'Remover';
         removeBtn.type = 'button';
+        removeBtn.className = 'btn-remove';
         removeBtn.onclick = () => {
             inputDiv.remove();
             removeBtn.remove();

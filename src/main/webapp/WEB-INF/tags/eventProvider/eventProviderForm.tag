@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="shared" tagdir="/WEB-INF/tags/shared" %>
 
+<%@ attribute name="formMessageText" required="true" type="java.lang.String" %>
 <%@ attribute name="isEdit" type="java.lang.Boolean" %>
 <%@ attribute name="modelAttrName" required="true" %>
 <c:set var="eventProviderRequest" value="${requestScope[modelAttrName]}" />
@@ -12,6 +13,9 @@
     <c:if test="${isEdit}">
         <form:input path="id" type="hidden" />
     </c:if>
+
+    <h3>${formMessageText}</h3>
+    <hr class="separator">
 
     <div class="form-block">
         <label><spring:message code="eventProviderDto.tradingName" /></label>
@@ -33,9 +37,12 @@
 
     <div class="form-block">
         <label><spring:message code="eventProviderDto.description" /></label>
-        <form:input path="description" />
+        <form:textarea path="description" rows="6" cols="30" />
         <form:errors path="description" class="form-error" />
     </div>
+
+    <h3>Contato</h3>
+    <hr class="separator">
 
     <shared:incrementalField
             label="phone"
@@ -54,6 +61,9 @@
             placeholder="exemplo@email.com"
             list="${eventProviderRequest.emails}"
     />
+
+    <h3>Endereço</h3>
+    <hr class="separator">
 
     <div class="form-block">
         <label><spring:message code="eventProviderDto.zipCode" /></label>
@@ -74,6 +84,8 @@
     </div>
 
     <div class="form-block">
-        <form:button type="submit">Salvar</form:button>
+        <form:button type="submit" class="btn-save">
+            Salvar Alterações
+        </form:button>
     </div>
 </div>
