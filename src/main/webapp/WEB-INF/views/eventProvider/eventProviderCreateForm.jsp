@@ -14,9 +14,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <shared:message />
-
-    <form:form modelAttribute="eventProviderCreateRequest" method="post" action="/events/create">
+    <form:form modelAttribute="eventProviderCreateRequest" method="post" action="/events/create" enctype="multipart/form-data">
         <eventProvider:eventProviderForm modelAttrName="eventProviderCreateRequest" formMessageText="Novo Fornecedor" />
     </form:form>
 

@@ -4,7 +4,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 
 <c:if test="${not empty message}">
-    <div>
-        <h3>${message}</h3>
+    <div class="message-toast-container">
+        ${message}
     </div>
 </c:if>
