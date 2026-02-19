@@ -5,6 +5,7 @@ import com.catering.app.eventprovider.domain.Email;
 import com.catering.app.eventprovider.domain.EventProvider;
 import com.catering.app.eventprovider.domain.Phone;
 import com.catering.app.eventprovider.domain.dto.AddressData;
+import com.catering.app.image.domain.EventProviderImage;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -66,7 +67,10 @@ public class EventProviderMapper {
                 address.getNeighborhood(),
                 address.getState(),
                 address.getCity(),
-                address.getZipCode()
+                address.getZipCode(),
+                eventProvider.getImages().stream()
+                        .map(EventProviderImage::getFileName)
+                        .toList()
         );
     }
 }

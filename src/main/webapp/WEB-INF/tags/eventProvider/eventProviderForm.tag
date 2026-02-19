@@ -10,6 +10,8 @@
 <c:set var="eventProviderRequest" value="${requestScope[modelAttrName]}" />
 
 <div class="form-container">
+    <shared:message />
+
     <c:if test="${isEdit}">
         <form:input path="id" type="hidden" />
     </c:if>
@@ -87,9 +89,18 @@
         <label>Fotos do Local / Evento</label>
         <div class="upload-area" id="drop-zone-main">
             <span class="upload-tip">Arrastar imagens ou clique para selecionar</span>
-            <input type="file" name="images" class="upload-input" id="imageInputMain" multiple accept="image/*" >
+            <form:input path="images" type="file" name="images" class="upload-input" id="imageInputMain" multiple="multiple" accept="image/*" />
             <div class="photo-grid" id="gallery-main"></div>
         </div>
+        <form:errors path="state" class="form-error" />
+    </div>
+
+    <div class="photo-display-grid">
+        <c:forEach items="${eventProviderUpdateRequest.urlImages}" var="urlImage">
+            <div class="photo-item-box">
+                <img src="/upload/images/${urlImage}" alt="Imagem do Evento">
+            </div>
+        </c:forEach>
     </div>
 
     <div class="form-block">

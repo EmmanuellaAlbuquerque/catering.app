@@ -34,6 +34,7 @@ public class EventProviderController {
     public String createEventProvider(@Valid EventProviderCreateRequest eventProviderCreateRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("message", "Não foi possível salvar as alterações. Verifique os erros e tente novamente.");
             return "eventProvider/eventProviderCreateForm";
         }
 
@@ -60,6 +61,7 @@ public class EventProviderController {
     public String editEventProvider(@Valid EventProviderUpdateRequest eventProviderUpdateRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("message", "Não foi possível salvar as alterações. Verifique os erros e tente novamente.");
             return "eventProvider/eventProviderEditForm";
         }
 

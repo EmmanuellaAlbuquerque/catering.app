@@ -1,6 +1,7 @@
 package com.catering.app.eventprovider.domain;
 
 import com.catering.app.eventprovider.domain.dto.AddressData;
+import com.catering.app.image.domain.EventProviderImage;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -55,6 +56,9 @@ public class EventProvider {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
     private final Set<PaymentMethod> paymentMethods = new HashSet<>();
+
+    @OneToMany(mappedBy = "eventProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<EventProviderImage> images = new ArrayList<>();
 
     @Deprecated
     public EventProvider() {}
@@ -114,6 +118,11 @@ public class EventProvider {
         }
     }
 
+    public void addImage(String filename) {
+        EventProviderImage image = new EventProviderImage(filename, this);
+        this.images.add(image);
+    }
+
     public Long getId() {
         return id;
     }
@@ -148,6 +157,10 @@ public class EventProvider {
 
     public Set<PaymentMethod> getPaymentMethods() {
         return Collections.unmodifiableSet(paymentMethods);
+    }
+
+    public List<EventProviderImage> getImages() {
+        return Collections.unmodifiableList(this.images);
     }
 
     private <T, V> void synchronizeCollection(Collection<T> currentCollection, Set<V> incomingValues, Function<T, V> valueExtractor, Consumer<V> adder) {

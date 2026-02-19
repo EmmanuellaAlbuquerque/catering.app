@@ -14,9 +14,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <shared:message />
-
-    <form:form modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit">
+    <form:form modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit" enctype="multipart/form-data">
         <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do Fornecedor do Evento (${eventProviderUpdateRequest.id})"/>
     </form:form>
 
