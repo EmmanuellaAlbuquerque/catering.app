@@ -1,8 +1,10 @@
 package com.catering.app.common.config.storage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -122,5 +124,28 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    public List<MultipartFile> filterValidImages(List<MultipartFile> images) {
+        if (images == null) return Collections.emptyList();
+
+        return images.stream()
+                .filter(img ->
+                        img != null
+                        && !img.isEmpty()
+                        && img.getOriginalFilename() != null
+                        && !img.getOriginalFilename().isBlank()
+                        && isImageContentValid(img))
+                .toList();
+    }
+
+    private boolean isImageContentValid(MultipartFile image) {
+        try (ByteArrayInputStream imgBytes = new ByteArrayInputStream(image.getBytes())) {
+            String mime = URLConnection.guessContentTypeFromStream(imgBytes);
+            return mime != null && mime.startsWith("image/");
+        }
+        catch (IOException e) {
+            return false;
+        }
     }
 }

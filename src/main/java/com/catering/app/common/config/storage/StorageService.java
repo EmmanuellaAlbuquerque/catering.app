@@ -3,6 +3,9 @@ package com.catering.app.common.config.storage;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
@@ -22,4 +25,6 @@ public interface StorageService {
     Resource loadAsResource(String filename);
 
     void deleteAll();
+
+    List<MultipartFile> filterValidImages(List<MultipartFile> images);
 }
