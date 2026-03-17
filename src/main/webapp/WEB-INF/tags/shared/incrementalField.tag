@@ -8,6 +8,7 @@
 <%@ attribute name="limit" required="true" type="java.lang.Integer" %>
 <%@ attribute name="placeholder" required="true" %>
 <%@ attribute name="list" required="false" type="java.util.Collection" %>
+<%@ attribute name="maxlength" required="false" type="java.lang.Integer" %>
 <spring:message var="inputTextContent" code="eventProviderDto.${label}" />
 
 <div class="${name}-container">
@@ -21,14 +22,14 @@
                         <div class="input-group-dynamic">
                             <label>${inputTextContent} ${status.count}</label>
 
-                            <input type="${type}" name="${name}[${status.index}]" value="${item}" class="${label}-input" placeholder="${placeholder}" />
+                            <input type="${type}" name="${name}[${status.index}]" value="${item}" class="${label}-input" placeholder="${placeholder}" maxlength="${maxlength}" />
                         </div>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <div class="input-group-dynamic">
                         <label><spring:message code="eventProviderDto.${label}" /> 1</label>
-                        <input type="${type}" name="${name}[0]" class="${label}-input" placeholder="${placeholder}" />
+                        <input type="${type}" name="${name}[0]" class="${label}-input" placeholder="${placeholder}" maxlength="${maxlength}" />
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -44,6 +45,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        new IncrementalField('${name}', '${label}', '${inputTextContent}', '${type}', ${limit}, '${placeholder}');
+        new IncrementalField('${name}', '${label}', '${inputTextContent}', '${type}', ${limit}, '${placeholder}', ${empty maxlength ? 'null' : maxlength});
     })
 </script>

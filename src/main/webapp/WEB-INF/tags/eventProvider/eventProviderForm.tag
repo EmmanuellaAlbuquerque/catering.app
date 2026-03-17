@@ -52,6 +52,7 @@
             type="tel"
             limit="3"
             placeholder="(00) 00000-0000"
+            maxlength="15"
             list="${eventProviderRequest.phones}"
     />
 
@@ -69,19 +70,19 @@
 
     <div class="form-block">
         <label><spring:message code="eventProviderDto.zipCode" /></label>
-        <form:input path="zipCode" />
+        <form:input id="zipCode" path="zipCode" placeholder="00000-000" maxlength="9" />
         <form:errors path="zipCode" class="form-error" />
 
         <label><spring:message code="eventProviderDto.city" /></label>
-        <form:input path="city" />
+        <form:input id="city" path="city" />
         <form:errors path="city" class="form-error" />
 
         <label><spring:message code="eventProviderDto.state" /></label>
-        <form:input path="state" />
+        <form:input id="state" path="state" maxlength="2" />
         <form:errors path="state" class="form-error" />
 
         <label><spring:message code="eventProviderDto.neighborhood" /></label>
-        <form:input path="neighborhood" />
+        <form:input id="neighborhood" path="neighborhood" />
         <form:errors path="neighborhood" class="form-error" />
     </div>
 
