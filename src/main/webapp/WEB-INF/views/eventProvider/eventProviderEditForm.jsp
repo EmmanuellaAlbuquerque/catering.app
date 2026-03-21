@@ -10,13 +10,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulário de Cadastro do Fornecedor de Eventos</title>
+    <title>Formulario de Cadastro do Fornecedor de Eventos</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-    <form:form modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit" enctype="multipart/form-data">
-        <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do Fornecedor do Evento (${eventProviderUpdateRequest.id})"/>
-    </form:form>
+<body class="event-page">
+    <main class="page-frame">
+        <section class="page-hero">
+            <span class="page-kicker">Catering Platform</span>
+            <h1>Refine cada fornecedor como uma vitrine pronta para conversao.</h1>
+            <p>Revise dados, contatos e imagens em uma tela mais clara, com foco em manutencao rapida e consistencia visual entre cadastros.</p>
+
+            <div class="hero-points">
+                <div class="hero-point">
+                    <strong>Edicao continua</strong>
+                    <span>Os blocos separam operacao, contato e endereco para acelerar atualizacoes.</span>
+                </div>
+                <div class="hero-point">
+                    <strong>Menos retrabalho</strong>
+                    <span>Mascaras e preenchimento automatico ajudam a manter os dados padronizados.</span>
+                </div>
+                <div class="hero-point">
+                    <strong>Galeria valorizada</strong>
+                    <span>As fotos atuais e novos uploads ficam mais legiveis e com melhor hierarquia.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-content">
+            <form:form cssClass="event-form" modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit" enctype="multipart/form-data">
+                <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do fornecedor (${eventProviderUpdateRequest.id})" />
+            </form:form>
+        </section>
+    </main>
 
     <shared:endScripts />
 </body>
