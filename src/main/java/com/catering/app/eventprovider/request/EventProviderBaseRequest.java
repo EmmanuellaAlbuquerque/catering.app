@@ -3,6 +3,7 @@ package com.catering.app.eventprovider.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public abstract class EventProviderBaseRequest {
     protected String registrationNumber;
 
     @NotBlank
+    @Size(max = 500)
     protected String description;
 
     @NotEmpty

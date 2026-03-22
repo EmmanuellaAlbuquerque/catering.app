@@ -324,6 +324,13 @@ form.event-form {
     line-height: 1.6;
 }
 
+.field-counter {
+    align-self: flex-end;
+    color: var(--color-neutral-400);
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
 .form-block input,
 .form-block textarea,
 .input-group-dynamic input {
@@ -340,7 +347,7 @@ form.event-form {
 }
 
 .form-block textarea {
-    min-height: 160px;
+    min-height: 240px;
     resize: vertical;
 }
 
