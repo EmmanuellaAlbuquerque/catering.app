@@ -17,21 +17,21 @@
     <main class="page-frame">
         <section class="page-hero">
             <span class="page-kicker">Catering Platform</span>
-            <h1>Refine cada fornecedor como uma vitrine pronta para conversao.</h1>
-            <p>Revise dados, contatos e imagens em uma tela mais clara, com foco em manutencao rapida e consistencia visual entre cadastros.</p>
+            <h1>Atualize fornecedores com mais clareza e controle.</h1>
+            <p>Revise dados, contatos e imagens em uma tela mais clara para manter o cadastro sempre completo e consistente.</p>
 
             <div class="hero-points">
                 <div class="hero-point">
-                    <strong>Edicao continua</strong>
-                    <span>Os blocos separam operacao, contato e endereco para acelerar atualizacoes.</span>
+                    <strong>Edição mais simples</strong>
+                    <span>Os dados foram organizados em seções para facilitar ajustes no dia a dia.</span>
                 </div>
                 <div class="hero-point">
-                    <strong>Menos retrabalho</strong>
-                    <span>Mascaras e preenchimento automatico ajudam a manter os dados padronizados.</span>
+                    <strong>Informações mais consistentes</strong>
+                    <span>O formulário ajuda a manter contato e endereço preenchidos de forma mais padronizada.</span>
                 </div>
                 <div class="hero-point">
-                    <strong>Galeria valorizada</strong>
-                    <span>As fotos atuais e novos uploads ficam mais legiveis e com melhor hierarquia.</span>
+                    <strong>Galeria mais clara</strong>
+                    <span>As fotos atuais e os novos uploads ficam mais visíveis e fáceis de revisar.</span>
                 </div>
             </div>
         </section>

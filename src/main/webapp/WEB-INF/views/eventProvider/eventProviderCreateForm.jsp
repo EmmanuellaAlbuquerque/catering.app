@@ -17,21 +17,21 @@
     <main class="page-frame">
         <section class="page-hero">
             <span class="page-kicker">Catering Platform</span>
-            <h1>Cadastre fornecedores com curadoria visual e clareza operacional.</h1>
-            <p>Estruture identidade, contatos, endereco e imagens em uma interface mais confiavel para quem vai contratar servicos de catering para eventos.</p>
+            <h1>Cadastre fornecedores com mais clareza e organização.</h1>
+            <p>Estruture identidade, contatos, endereço e imagens em uma interface mais confiável para quem vai contratar serviços de catering para eventos.</p>
 
             <div class="hero-points">
                 <div class="hero-point">
-                    <strong>Fluxo guiado</strong>
-                    <span>As informacoes principais aparecem em blocos claros e em uma sequencia natural.</span>
+                    <strong>Cadastro mais organizado</strong>
+                    <span>As informações principais ficam distribuídas em blocos claros e fáceis de revisar.</span>
                 </div>
                 <div class="hero-point">
-                    <strong>Enderecos mais rapidos</strong>
-                    <span>O CEP preenche bairro, cidade e estado para reduzir erro manual.</span>
+                    <strong>Dados bem estruturados</strong>
+                    <span>Contato, endereço e apresentação visual ficam reunidos no mesmo fluxo de cadastro.</span>
                 </div>
                 <div class="hero-point">
-                    <strong>Apresentacao melhor</strong>
-                    <span>O cadastro ja nasce preparado para destacar fotos e transmitir mais confianca.</span>
+                    <strong>Apresentação mais consistente</strong>
+                    <span>O formulário ajuda a manter o perfil do fornecedor mais completo e mais fácil de entender.</span>
                 </div>
             </div>
         </section>

@@ -9,8 +9,7 @@
 <%@ attribute name="modelAttrName" required="true" %>
 <c:set var="eventProviderRequest" value="${requestScope[modelAttrName]}" />
 <c:set var="formEyebrow" value="${isEdit ? 'Cadastro ativo' : 'Novo cadastro'}" />
-<c:set var="formSupportText" value="${isEdit ? 'Atualize o perfil do fornecedor com foco em legibilidade e padronizacao dos dados.' : 'Monte um perfil completo para o fornecedor aparecer de forma clara e confiavel na plataforma.'}" />
-<c:set var="formBadgeText" value="${isEdit ? 'Modo edicao' : 'Pronto para publicar'}" />
+<c:set var="formSupportText" value="${isEdit ? 'Atualize o perfil do fornecedor com dados claros e consistentes.' : 'Monte um perfil completo para o fornecedor.'}" />
 
 <div class="form-container">
     <shared:message />
@@ -26,8 +25,6 @@
                 <h2>${formMessageText}</h2>
                 <p>${formSupportText}</p>
             </div>
-
-            <div class="form-badge">${formBadgeText}</div>
         </div>
 
         <section class="section-panel">
@@ -35,7 +32,7 @@
                 <span class="section-index">01</span>
                 <div>
                     <h3>Perfil do fornecedor</h3>
-                    <p>Defina como este parceiro vai ser reconhecido dentro da plataforma e pelos clientes.</p>
+                    <p>Preencha as informações principais para identificar o fornecedor com clareza.</p>
                 </div>
             </div>
 
@@ -60,8 +57,8 @@
 
                 <div class="form-block field-span-full">
                     <label><spring:message code="eventProviderDto.description" /></label>
-                    <p class="field-note">Descreva estilo de atendimento, diferenciais e contexto de uso do servico.</p>
-                    <form:textarea path="description" rows="6" cols="30" placeholder="Conte como esse fornecedor atende eventos e o que torna a experiencia mais especial." />
+                    <p class="field-note">Descreva o serviço prestado, o tipo de atendimento e os principais diferenciais.</p>
+                    <form:textarea path="description" rows="6" cols="30" placeholder="Conte como esse fornecedor atende eventos e quais são os principais diferenciais." />
                     <form:errors path="description" class="form-error" />
                 </div>
             </div>
@@ -72,7 +69,7 @@
                 <span class="section-index">02</span>
                 <div>
                     <h3>Contato</h3>
-                    <p>Organize os principais canais de atendimento com boa leitura e padronizacao.</p>
+                    <p>Organize os principais canais de atendimento.</p>
                 </div>
             </div>
 
@@ -102,15 +99,14 @@
             <div class="section-heading">
                 <span class="section-index">03</span>
                 <div>
-                    <h3>Endereco</h3>
-                    <p>Use o CEP para completar os dados principais e manter os cadastros consistentes.</p>
+                    <h3>Endereço</h3>
+                    <p>Preencha os dados de localização do fornecedor.</p>
                 </div>
             </div>
 
             <div class="field-grid field-grid--dual">
                 <div class="form-block">
                     <label><spring:message code="eventProviderDto.zipCode" /></label>
-                    <p class="field-note">Ao digitar o CEP, bairro, cidade e estado podem ser preenchidos automaticamente.</p>
                     <form:input id="zipCode" path="zipCode" placeholder="00000-000" maxlength="9" />
                     <form:errors path="zipCode" class="form-error" />
                 </div>
@@ -140,7 +136,7 @@
                 <span class="section-index">04</span>
                 <div>
                     <h3>Galeria visual</h3>
-                    <p>Apresente imagens que ajudem o cliente a confiar na experiencia do fornecedor.</p>
+                    <p>Adicione imagens que representem bem o fornecedor e o serviço oferecido.</p>
                 </div>
             </div>
 
@@ -170,12 +166,12 @@
 
         <div class="form-actions">
             <div class="form-actions-copy">
-                Revise os dados antes de salvar. Informacoes padronizadas melhoram a leitura do catalogo e reduzem retrabalho operacional.
+                Revise os dados antes de salvar para manter o cadastro completo e atualizado.
             </div>
 
             <div class="form-block">
                 <form:button type="submit" class="btn-save">
-                    Salvar alteracoes
+                    Salvar alterações
                 </form:button>
             </div>
         </div>
