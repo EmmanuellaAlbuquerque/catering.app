@@ -3,6 +3,7 @@
 <script src="/js/formUtils/PhoneInputMask.js" type="text/javascript"></script>
 <script src="/js/formUtils/ZipCodeInputMask.js" type="text/javascript"></script>
 <script src="/js/formUtils/ViaCepAddressAutofill.js" type="text/javascript"></script>
+<script src="/js/formUtils/TextAreaCounter.js" type="text/javascript"></script>
 <script src="/js/formUtils/ImageUploadManager.js" type="text/javascript"></script>
 
 <script>
@@ -15,6 +16,11 @@
             cityInputId: 'city',
             stateInputId: 'state',
             neighborhoodInputId: 'neighborhood'
+        });
+        new TextAreaCounter({
+            textareaId: 'description',
+            counterId: 'descriptionCounter',
+            maxLength: 500
         });
         new ImageUpload();
     });

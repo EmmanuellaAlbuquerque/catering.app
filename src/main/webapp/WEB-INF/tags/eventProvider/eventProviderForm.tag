@@ -58,7 +58,8 @@
                 <div class="form-block field-span-full">
                     <label><spring:message code="eventProviderDto.description" /></label>
                     <p class="field-note">Descreva o serviço prestado, o tipo de atendimento e os principais diferenciais.</p>
-                    <form:textarea path="description" rows="6" cols="30" placeholder="Conte como esse fornecedor atende eventos e quais são os principais diferenciais." />
+                    <form:textarea id="description" path="description" rows="6" cols="30" maxlength="500" placeholder="Conte como esse fornecedor atende eventos e quais são os principais diferenciais." />
+                    <span id="descriptionCounter" class="field-counter"></span>
                     <form:errors path="description" class="form-error" />
                 </div>
             </div>
