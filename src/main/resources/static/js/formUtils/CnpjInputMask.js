@@ -8,20 +8,27 @@ class CnpjInputMask {
 
     constructor(inputId) {
         this.input = document.getElementById(inputId);
+        if (!this.input) {
+            return;
+        }
+
         this.input.addEventListener("input", (event) => this.applyMask(event));
+        this.input.value = CnpjInputMask.format(this.input.value);
     }
 
     applyMask(event) {
-        let inputValue = event.target.value;
+        event.target.value = CnpjInputMask.format(event.target.value);
+    }
 
-        inputValue = inputValue.replace(CnpjInputMask.REMOVE_NON_DIGITS, '');
-        inputValue = inputValue.substring(0, 14);
+    static format(inputValue) {
+        let formattedValue = inputValue.replace(CnpjInputMask.REMOVE_NON_DIGITS, '');
+        formattedValue = formattedValue.substring(0, 14);
 
-        inputValue = inputValue.replace(CnpjInputMask.INSERT_FIRST_DOT, '$1.$2');
-        inputValue = inputValue.replace(CnpjInputMask.INSERT_SECOND_DOT, '$1.$2.$3');
-        inputValue = inputValue.replace(CnpjInputMask.INSERT_SLASH, '$1.$2.$3/$4');
-        inputValue = inputValue.replace(CnpjInputMask.INSERT_DASH, '$1.$2.$3/$4-$5');
+        formattedValue = formattedValue.replace(CnpjInputMask.INSERT_FIRST_DOT, '$1.$2');
+        formattedValue = formattedValue.replace(CnpjInputMask.INSERT_SECOND_DOT, '$1.$2.$3');
+        formattedValue = formattedValue.replace(CnpjInputMask.INSERT_SLASH, '$1.$2.$3/$4');
+        formattedValue = formattedValue.replace(CnpjInputMask.INSERT_DASH, '$1.$2.$3/$4-$5');
 
-        event.target.value = inputValue;
+        return formattedValue;
     }
 }

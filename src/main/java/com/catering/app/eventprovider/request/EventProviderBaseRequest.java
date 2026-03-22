@@ -2,6 +2,7 @@ package com.catering.app.eventprovider.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public abstract class EventProviderBaseRequest {
     protected String description;
 
     @NotEmpty
-    protected List<String> phones = new ArrayList<>();
+    protected List<@NotBlank @Pattern(regexp = "^\\(\\d{2}\\) \\d{4,5}-\\d{4}$") String> phones = new ArrayList<>();
 
     @NotEmpty
     protected List<String> emails = new ArrayList<>();
@@ -31,12 +32,14 @@ public abstract class EventProviderBaseRequest {
     protected String neighborhood;
 
     @NotBlank
+    @Pattern(regexp = "^[A-Za-z]{2}$")
     protected String state;
 
     @NotBlank
     protected String city;
 
     @NotBlank
+    @Pattern(regexp = "^\\d{5}-\\d{3}$")
     protected String zipCode;
 
     protected List<MultipartFile> images = new ArrayList<>();
