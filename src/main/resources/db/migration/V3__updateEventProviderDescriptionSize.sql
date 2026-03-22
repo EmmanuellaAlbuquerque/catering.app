@@ -1,0 +1,1 @@
+ALTER TABLE event_provider MODIFY description VARCHAR(500);
