@@ -1,29 +1,21 @@
 package com.catering.app.eventprovider;
 
-import com.catering.app.common.config.storage.StorageService;
+import com.catering.app.eventprovider.domain.Email;
 import com.catering.app.eventprovider.domain.EventProvider;
+import com.catering.app.eventprovider.domain.Phone;
 import com.catering.app.eventprovider.domain.dto.AddressData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -76,10 +68,10 @@ class EventProviderIntegrationTest {
         assertThat(savedProvider.getRegistrationNumber()).isEqualTo("12.345.678/0001-90");
         assertThat(savedProvider.getDescription()).isEqualTo("Buffet especializado em casamentos e eventos corporativos.");
         assertThat(savedProvider.getPhones())
-                .extracting(phone -> phone.getNumber())
+                .extracting(Phone::getNumber)
                 .containsExactlyInAnyOrder("(85) 99999-9999");
         assertThat(savedProvider.getEmails())
-                .extracting(email -> email.getEmail())
+                .extracting(Email::getEmail)
                 .containsExactlyInAnyOrder("contato@atelier.com");
         assertThat(savedProvider.getAddresses())
                 .singleElement()
@@ -126,10 +118,10 @@ class EventProviderIntegrationTest {
         assertThat(updatedProvider.getCompanyName()).isEqualTo("Buffet Atualizado LTDA");
         assertThat(updatedProvider.getDescription()).isEqualTo("Fornecedor atualizado com foco em eventos sociais e corporativos.");
         assertThat(updatedProvider.getPhones())
-                .extracting(phone -> phone.getNumber())
+                .extracting(Phone::getNumber)
                 .containsExactlyInAnyOrder("(85) 97777-2222");
         assertThat(updatedProvider.getEmails())
-                .extracting(email -> email.getEmail())
+                .extracting(Email::getEmail)
                 .containsExactlyInAnyOrder("novo@buffet.com");
         assertThat(updatedProvider.getAddresses())
                 .singleElement()
@@ -139,52 +131,5 @@ class EventProviderIntegrationTest {
                     assertThat(address.getCity()).isEqualTo("Fortaleza");
                     assertThat(address.getZipCode()).isEqualTo("60150-160");
                 });
-    }
-
-    @TestConfiguration
-    static class TestStorageConfiguration {
-
-        @Bean
-        @Primary
-        StorageService storageService() {
-            return new StorageService() {
-                @Override
-                public void init() {
-                }
-
-                @Override
-                public void store(MultipartFile file) {
-                }
-
-                @Override
-                public List<String> store(List<MultipartFile> file) {
-                    return Collections.emptyList();
-                }
-
-                @Override
-                public Stream<Path> loadAll() {
-                    return Stream.empty();
-                }
-
-                @Override
-                public Path load(String filename) {
-                    return Path.of(filename);
-                }
-
-                @Override
-                public Resource loadAsResource(String filename) {
-                    return new ByteArrayResource(new byte[0]);
-                }
-
-                @Override
-                public void deleteAll() {
-                }
-
-                @Override
-                public List<MultipartFile> filterValidImages(List<MultipartFile> images) {
-                    return Collections.emptyList();
-                }
-            };
-        }
     }
 }
