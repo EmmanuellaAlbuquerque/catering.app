@@ -3,6 +3,7 @@ package com.catering.app.eventprovider.request;
 import com.catering.app.eventprovider.domain.Address;
 import com.catering.app.eventprovider.domain.Email;
 import com.catering.app.eventprovider.domain.EventProvider;
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import com.catering.app.eventprovider.domain.Phone;
 import com.catering.app.eventprovider.domain.dto.AddressData;
 import com.catering.app.image.domain.EventProviderImage;
@@ -24,6 +25,7 @@ public class EventProviderMapper {
 
         createRequest.getPhones().forEach(eventProvider::addPhone);
         createRequest.getEmails().forEach(eventProvider::addEmail);
+        createRequest.getPaymentMethods().forEach(eventProvider::addPaymentMethod);
         AddressData addressData  = new AddressData(
                 createRequest.getNeighborhood(),
                 createRequest.getState(),
@@ -51,6 +53,7 @@ public class EventProviderMapper {
                 updateRequest.getZipCode()
         );
         eventProvider.updateAddress(addressData);
+        eventProvider.updatePaymentMethods(new HashSet<>(updateRequest.getPaymentMethods()));
     }
 
     public EventProviderUpdateRequest toEventProviderUpdate(EventProvider eventProvider) {
@@ -68,6 +71,7 @@ public class EventProviderMapper {
                 address.getState(),
                 address.getCity(),
                 address.getZipCode(),
+                eventProvider.getPaymentMethods().stream().toList(),
                 eventProvider.getImages().stream()
                         .map(EventProviderImage::getFileName)
                         .toList()

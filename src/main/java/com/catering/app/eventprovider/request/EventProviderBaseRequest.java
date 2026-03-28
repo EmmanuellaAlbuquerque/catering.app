@@ -1,5 +1,6 @@
 package com.catering.app.eventprovider.request;
 
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -44,7 +45,18 @@ public abstract class EventProviderBaseRequest {
     @Pattern(regexp = "^\\d{5}-\\d{3}$")
     protected String zipCode;
 
+    @NotEmpty
+    protected List<PaymentMethod> paymentMethods = new ArrayList<>();
+
     protected List<MultipartFile> images = new ArrayList<>();
+
+    public List<PaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
 
     public List<MultipartFile> getImages() {
         return images;

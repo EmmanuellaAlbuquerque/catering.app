@@ -136,6 +136,44 @@
             <div class="section-heading">
                 <span class="section-index">04</span>
                 <div>
+                    <h3>Pagamento</h3>
+                    <p>Indique quais meios de pagamento o fornecedor aceita.</p>
+                </div>
+            </div>
+
+            <div class="field-grid">
+                <div class="form-block field-span-full">
+                    <label><spring:message code="eventProviderDto.paymentMethods" /></label>
+                    <p class="field-note"><spring:message code="eventProviderDto.paymentMethods.help" /></p>
+
+                    <div class="payment-method-grid">
+                        <c:forEach items="${paymentMethodOptions}" var="paymentMethod">
+                            <label class="payment-method-option">
+                                <input
+                                        type="checkbox"
+                                        name="paymentMethods"
+                                        value="${paymentMethod}"
+                                        <c:if test="${eventProviderRequest.paymentMethods != null and eventProviderRequest.paymentMethods.contains(paymentMethod)}">checked="checked"</c:if>
+                                />
+                                <span class="payment-method-card">
+                                    <span class="payment-method-check" aria-hidden="true"></span>
+                                    <span class="payment-method-title">
+                                        <spring:message code="paymentMethod.${paymentMethod}" />
+                                    </span>
+                                </span>
+                            </label>
+                        </c:forEach>
+                    </div>
+
+                    <form:errors path="paymentMethods" class="form-error" />
+                </div>
+            </div>
+        </section>
+
+        <section class="section-panel">
+            <div class="section-heading">
+                <span class="section-index">05</span>
+                <div>
                     <h3>Galeria visual</h3>
                     <p>Adicione imagens que representem bem o fornecedor e o serviço oferecido.</p>
                 </div>

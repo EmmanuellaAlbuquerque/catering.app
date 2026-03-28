@@ -464,6 +464,90 @@ input[type="button"] {
     background: rgba(182, 82, 82, 0.14);
 }
 
+.payment-method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-md);
+}
+
+.payment-method-option {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+.payment-method-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.payment-method-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 88px;
+    padding: 1rem 1.1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(145, 127, 112, 0.18);
+    background:
+        linear-gradient(135deg, rgba(255, 253, 249, 0.98), rgba(247, 242, 234, 0.94)),
+        radial-gradient(circle at top right, rgba(197, 122, 71, 0.1), transparent 45%);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+.payment-method-check {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(145, 127, 112, 0.36);
+    background: rgba(255, 253, 249, 0.9);
+    position: relative;
+    transition: border-color 0.22s ease, background-color 0.22s ease, transform 0.22s ease;
+}
+
+.payment-method-check::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 999px;
+    background: var(--color-primary);
+    transform: scale(0);
+    transition: transform 0.18s ease;
+}
+
+.payment-method-title {
+    color: var(--color-primary);
+    font-size: 0.96rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.payment-method-option:hover .payment-method-card {
+    transform: translateY(-2px);
+    border-color: rgba(197, 122, 71, 0.36);
+}
+
+.payment-method-option input:checked + .payment-method-card {
+    border-color: rgba(47, 74, 61, 0.42);
+    background:
+        linear-gradient(135deg, rgba(47, 74, 61, 0.1), rgba(255, 253, 249, 0.96)),
+        radial-gradient(circle at top right, rgba(197, 122, 71, 0.18), transparent 48%);
+    box-shadow: 0 18px 28px rgba(47, 74, 61, 0.16);
+}
+
+.payment-method-option input:checked + .payment-method-card .payment-method-check {
+    border-color: rgba(47, 74, 61, 0.7);
+    background: rgba(47, 74, 61, 0.08);
+    transform: scale(1.06);
+}
+
+.payment-method-option input:checked + .payment-method-card .payment-method-check::after {
+    transform: scale(1);
+}
+
 .upload-area {
     min-height: 260px;
     padding: var(--space-xl);

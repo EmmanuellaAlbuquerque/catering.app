@@ -1,5 +1,6 @@
 package com.catering.app.eventprovider;
 
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import com.catering.app.eventprovider.request.EventProviderCreateRequest;
 import com.catering.app.eventprovider.request.EventProviderUpdateRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +35,7 @@ public class EventProviderController {
         }
 
         model.addAttribute("eventProviderCreateDto", eventProviderCreateRequest);
+        model.addAttribute("paymentMethodOptions", PaymentMethod.values());
         return "eventProvider/eventProviderCreateForm";
     }
 
@@ -47,6 +49,7 @@ public class EventProviderController {
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
+            model.addAttribute("paymentMethodOptions", PaymentMethod.values());
             return "eventProvider/eventProviderCreateForm";
         }
 
@@ -63,6 +66,7 @@ public class EventProviderController {
     public String editEventProvider(Model model, @PathVariable Long id) {
         EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findById(id);
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
+        model.addAttribute("paymentMethodOptions", PaymentMethod.values());
         return "eventProvider/eventProviderEditForm";
     }
 
@@ -75,6 +79,7 @@ public class EventProviderController {
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
+            model.addAttribute("paymentMethodOptions", PaymentMethod.values());
             return "eventProvider/eventProviderEditForm";
         }
 
