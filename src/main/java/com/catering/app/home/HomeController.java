@@ -10,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("message", "Bem-vindo ao Spring Boot com JSP!");
+        model.addAttribute("message", "Catering Platform");
         return "home";
     }
 }
