@@ -63,7 +63,12 @@ public class EventProviderController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editEventProvider(Model model, @PathVariable Long id) {
+    public String editEventProvider(Model model, @PathVariable Long id, HttpSession session) {
+        String redirectPath = resolveUnauthorizedEditRedirect(session, id);
+        if (redirectPath != null) {
+            return redirectPath;
+        }
+
         EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findById(id);
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
         model.addAttribute("paymentMethodOptions", PaymentMethod.values());
@@ -75,8 +80,14 @@ public class EventProviderController {
             @Valid EventProviderUpdateRequest eventProviderUpdateRequest,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            HttpSession session
     ) {
+        String redirectPath = resolveUnauthorizedEditRedirect(session, eventProviderUpdateRequest.getId());
+        if (redirectPath != null) {
+            return redirectPath;
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
             model.addAttribute("paymentMethodOptions", PaymentMethod.values());
@@ -89,5 +100,24 @@ public class EventProviderController {
         redirectAttributes.addFlashAttribute("message", "Atualizado com sucesso!");
 
         return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();
+    }
+
+    private String resolveUnauthorizedEditRedirect(HttpSession session, Long eventProviderId) {
+        Long accountId = (Long) session.getAttribute(ACCOUNT_ID);
+
+        if (accountId == null) {
+            return "redirect:/accounts/sign-up/event-providers";
+        }
+
+        if (eventProviderService.ownsEventProvider(accountId, eventProviderId)) {
+            return null;
+        }
+
+        if (eventProviderService.hasEventProviderForAccount(accountId)) {
+            EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findByOwnerAccountId(accountId);
+            return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();
+        }
+
+        return "redirect:/events/create";
     }
 }

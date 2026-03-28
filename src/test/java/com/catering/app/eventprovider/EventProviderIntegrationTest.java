@@ -154,4 +154,46 @@ class EventProviderIntegrationTest {
                     assertThat(address.getZipCode()).isEqualTo("60150-160");
                 });
     }
+
+    @Test
+    void shouldNotAllowOneProviderToEditAnotherProvidersData() throws Exception {
+        UserAccount ownerAccount = accountRepository.save(new UserAccount("owner@buffet.com", "hash", AccountType.EVENT_PROVIDER_OWNER));
+        UserAccount intruderAccount = accountRepository.save(new UserAccount("intruder@buffet.com", "hash", AccountType.EVENT_PROVIDER_OWNER));
+
+        EventProvider existingProvider = new EventProvider(
+                "Buffet Original",
+                "Buffet Original LTDA",
+                "98.765.432/0001-10",
+                "Descricao inicial do fornecedor."
+        );
+        existingProvider.assignOwnerAccount(ownerAccount);
+        existingProvider.addPhone("(85) 98888-1111");
+        existingProvider.addEmail("original@buffet.com");
+        existingProvider.addAddress(new AddressData("Centro", "CE", "Fortaleza", "60000-000"));
+        eventProviderRepository.save(existingProvider);
+
+        mockMvc.perform(multipart("/events/edit")
+                        .sessionAttr(AccountSession.ACCOUNT_ID, intruderAccount.getId())
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .param("id", existingProvider.getId().toString())
+                        .param("tradingName", "Tentativa de invasao")
+                        .param("companyName", "Tentativa LTDA")
+                        .param("registrationNumber", "98.765.432/0001-10")
+                        .param("description", "Alteracao indevida.")
+                        .param("phones[0]", "(85) 97777-2222")
+                        .param("emails[0]", "novo@buffet.com")
+                        .param("paymentMethods", "PIX")
+                        .param("neighborhood", "Aldeota")
+                        .param("state", "CE")
+                        .param("city", "Fortaleza")
+                        .param("zipCode", "60150-160"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/events/create"));
+
+        EventProvider untouchedProvider = eventProviderRepository.findById(existingProvider.getId()).orElseThrow();
+
+        assertThat(untouchedProvider.getTradingName()).isEqualTo("Buffet Original");
+        assertThat(untouchedProvider.getDescription()).isEqualTo("Descricao inicial do fornecedor.");
+        assertThat(untouchedProvider.getOwnerAccount().getId()).isEqualTo(ownerAccount.getId());
+    }
 }
