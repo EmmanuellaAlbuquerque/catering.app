@@ -1,7 +1,7 @@
 package com.catering.app.eventprovider.request;
 
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class EventProviderUpdateRequest extends EventProviderBaseRequest {
 
     private List<String> urlImages;
 
-    public EventProviderUpdateRequest(Long id, String tradingName, String companyName, String registrationNumber, String description, List<String> phones, List<String> emails, String neighborhood, String state, String city, String zipCode, List<String> urlImages) {
+    public EventProviderUpdateRequest(Long id, String tradingName, String companyName, String registrationNumber, String description, List<String> phones, List<String> emails, String neighborhood, String state, String city, String zipCode, List<PaymentMethod> paymentMethods, List<String> urlImages) {
         this.id = id;
         this.tradingName = tradingName;
         this.companyName = companyName;
@@ -24,6 +24,7 @@ public class EventProviderUpdateRequest extends EventProviderBaseRequest {
         this.state = state;
         this.city = city;
         this.zipCode = zipCode;
+        this.paymentMethods = paymentMethods;
         this.urlImages = urlImages;
     }
 

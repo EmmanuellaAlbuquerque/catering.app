@@ -5,6 +5,7 @@ import com.catering.app.account.domain.AccountType;
 import com.catering.app.account.domain.UserAccount;
 import com.catering.app.common.config.storage.StorageService;
 import com.catering.app.eventprovider.domain.EventProvider;
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import com.catering.app.eventprovider.domain.dto.AddressData;
 import com.catering.app.eventprovider.request.EventProviderCreateRequest;
 import com.catering.app.eventprovider.request.EventProviderMapper;
@@ -116,6 +117,7 @@ class EventProviderServiceTest {
                 "CE",
                 "Fortaleza",
                 "60150-160",
+                List.of(PaymentMethod.PIX, PaymentMethod.CREDIT_CARD),
                 List.of()
         );
         updateRequest.setImages(List.of());
@@ -181,6 +183,7 @@ class EventProviderServiceTest {
                 "CE",
                 "Fortaleza",
                 "60150-160",
+                List.of(PaymentMethod.PIX),
                 List.of()
         );
 
@@ -214,6 +217,7 @@ class EventProviderServiceTest {
                 "CE",
                 "Fortaleza",
                 "60165-090",
+                List.of(PaymentMethod.PIX),
                 List.of()
         );
 

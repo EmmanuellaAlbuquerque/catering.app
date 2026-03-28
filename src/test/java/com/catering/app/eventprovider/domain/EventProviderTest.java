@@ -66,4 +66,21 @@ class EventProviderTest {
                     assertThat(address.getZipCode()).isEqualTo("60150-160");
                 });
     }
+
+    @Test
+    void shouldReplaceAcceptedPaymentMethods() {
+        EventProvider eventProvider = new EventProvider(
+                "Buffet Prime",
+                "Buffet Prime LTDA",
+                "12.345.678/0001-90",
+                "Descricao do fornecedor"
+        );
+        eventProvider.addPaymentMethod(PaymentMethod.PIX);
+        eventProvider.addPaymentMethod(PaymentMethod.CASH);
+
+        eventProvider.updatePaymentMethods(Set.of(PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD));
+
+        assertThat(eventProvider.getPaymentMethods())
+                .containsExactlyInAnyOrder(PaymentMethod.CREDIT_CARD, PaymentMethod.DEBIT_CARD);
+    }
 }

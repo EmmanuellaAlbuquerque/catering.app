@@ -106,6 +106,21 @@ public class EventProvider {
         synchronizeCollection(this.emails, incomingEmails, Email::getEmail, this::addEmail);
     }
 
+    public void addPaymentMethod(PaymentMethod paymentMethod) {
+        if (paymentMethod != null) {
+            this.paymentMethods.add(paymentMethod);
+        }
+    }
+
+    public void updatePaymentMethods(Set<PaymentMethod> incomingPaymentMethods) {
+        Set<PaymentMethod> sanitizedPaymentMethods = incomingPaymentMethods == null
+                ? new HashSet<>()
+                : new HashSet<>(incomingPaymentMethods);
+
+        this.paymentMethods.clear();
+        this.paymentMethods.addAll(sanitizedPaymentMethods);
+    }
+
     public void addAddress(AddressData addressData){
         Address address = new Address(addressData.neighborhood(),
                 addressData.state(),

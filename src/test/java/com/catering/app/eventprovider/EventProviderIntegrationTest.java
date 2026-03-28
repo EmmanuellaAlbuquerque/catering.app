@@ -6,6 +6,7 @@ import com.catering.app.account.domain.AccountType;
 import com.catering.app.account.domain.UserAccount;
 import com.catering.app.eventprovider.domain.Email;
 import com.catering.app.eventprovider.domain.EventProvider;
+import com.catering.app.eventprovider.domain.PaymentMethod;
 import com.catering.app.eventprovider.domain.Phone;
 import com.catering.app.eventprovider.domain.dto.AddressData;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +61,8 @@ class EventProviderIntegrationTest {
                         .param("description", "Buffet especializado em casamentos e eventos corporativos.")
                         .param("phones[0]", "(85) 99999-9999")
                         .param("emails[0]", "contato@atelier.com")
+                        .param("paymentMethods", "PIX")
+                        .param("paymentMethods", "CREDIT_CARD")
                         .param("neighborhood", "Meireles")
                         .param("state", "CE")
                         .param("city", "Fortaleza")
@@ -80,6 +83,8 @@ class EventProviderIntegrationTest {
         assertThat(savedProvider.getDescription()).isEqualTo("Buffet especializado em casamentos e eventos corporativos.");
         assertThat(savedProvider.getOwnerAccount()).isNotNull();
         assertThat(savedProvider.getOwnerAccount().getId()).isEqualTo(account.getId());
+        assertThat(savedProvider.getPaymentMethods())
+                .containsExactlyInAnyOrder(PaymentMethod.PIX, PaymentMethod.CREDIT_CARD);
         assertThat(savedProvider.getPhones())
                 .extracting(Phone::getNumber)
                 .containsExactlyInAnyOrder("(85) 99999-9999");
@@ -118,6 +123,8 @@ class EventProviderIntegrationTest {
                         .param("description", "Fornecedor atualizado com foco em eventos sociais e corporativos.")
                         .param("phones[0]", "(85) 97777-2222")
                         .param("emails[0]", "novo@buffet.com")
+                        .param("paymentMethods", "PIX")
+                        .param("paymentMethods", "BANK_TRANSFER")
                         .param("neighborhood", "Aldeota")
                         .param("state", "CE")
                         .param("city", "Fortaleza")
@@ -130,6 +137,8 @@ class EventProviderIntegrationTest {
         assertThat(updatedProvider.getTradingName()).isEqualTo("Buffet Atualizado");
         assertThat(updatedProvider.getCompanyName()).isEqualTo("Buffet Atualizado LTDA");
         assertThat(updatedProvider.getDescription()).isEqualTo("Fornecedor atualizado com foco em eventos sociais e corporativos.");
+        assertThat(updatedProvider.getPaymentMethods())
+                .containsExactlyInAnyOrder(PaymentMethod.PIX, PaymentMethod.BANK_TRANSFER);
         assertThat(updatedProvider.getPhones())
                 .extracting(Phone::getNumber)
                 .containsExactlyInAnyOrder("(85) 97777-2222");
