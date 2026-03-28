@@ -2,15 +2,18 @@ package com.catering.app.eventprovider;
 
 import com.catering.app.eventprovider.request.EventProviderCreateRequest;
 import com.catering.app.eventprovider.request.EventProviderUpdateRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static com.catering.app.account.AccountSession.ACCOUNT_ID;
 
 @Controller
 @RequestMapping("/events")
@@ -23,25 +26,34 @@ public class EventProviderController {
     }
 
     @GetMapping("/create")
-    public String createEventProvider(Model model, EventProviderCreateRequest eventProviderCreateRequest) {
+    public String createEventProvider(Model model, EventProviderCreateRequest eventProviderCreateRequest, HttpSession session) {
+        Long accountId = (Long) session.getAttribute(ACCOUNT_ID);
+        if (eventProviderService.hasEventProviderForAccount(accountId)) {
+            EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findByOwnerAccountId(accountId);
+            return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();
+        }
 
         model.addAttribute("eventProviderCreateDto", eventProviderCreateRequest);
-
         return "eventProvider/eventProviderCreateForm";
     }
 
     @PostMapping("/create")
-    public String createEventProvider(@Valid EventProviderCreateRequest eventProviderCreateRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
+    public String createEventProvider(
+            @Valid EventProviderCreateRequest eventProviderCreateRequest,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            HttpSession session
+    ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Não foi possível salvar as alterações. Verifique os erros e tente novamente.");
+            model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
             return "eventProvider/eventProviderCreateForm";
         }
 
-        Long savedId = eventProviderService.create(eventProviderCreateRequest);
+        Long accountId = (Long) session.getAttribute(ACCOUNT_ID);
+        Long savedId = eventProviderService.create(eventProviderCreateRequest, accountId);
 
         model.addAttribute("eventProviderCreateDto", eventProviderCreateRequest);
-
         redirectAttributes.addFlashAttribute("message", "Criado com sucesso!");
 
         return "redirect:/events/edit/" + savedId;
@@ -49,26 +61,26 @@ public class EventProviderController {
 
     @GetMapping("/edit/{id}")
     public String editEventProvider(Model model, @PathVariable Long id) {
-
         EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findById(id);
-
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
-
         return "eventProvider/eventProviderEditForm";
     }
 
     @PostMapping("/edit")
-    public String editEventProvider(@Valid EventProviderUpdateRequest eventProviderUpdateRequest, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
+    public String editEventProvider(
+            @Valid EventProviderUpdateRequest eventProviderUpdateRequest,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Não foi possível salvar as alterações. Verifique os erros e tente novamente.");
+            model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
             return "eventProvider/eventProviderEditForm";
         }
 
         eventProviderService.update(eventProviderUpdateRequest);
 
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
-
         redirectAttributes.addFlashAttribute("message", "Atualizado com sucesso!");
 
         return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();

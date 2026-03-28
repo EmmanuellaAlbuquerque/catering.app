@@ -8,14 +8,13 @@ class ViaCepAddressAutofill {
         this.cityInput = document.getElementById(config.cityInputId);
         this.stateInput = document.getElementById(config.stateInputId);
         this.neighborhoodInput = document.getElementById(config.neighborhoodInputId);
-        this.lastFetchedZipCode = null;
+        this.lastFetchedZipCode = this.getZipCodeDigits();
 
         if (!this.zipCodeInput || !this.cityInput || !this.stateInput || !this.neighborhoodInput) {
             return;
         }
 
         this.zipCodeInput.addEventListener("input", () => this.handleZipCodeChange());
-        this.handleZipCodeChange();
     }
 
     handleZipCodeChange() {

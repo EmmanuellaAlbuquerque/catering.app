@@ -1,6 +1,7 @@
 package com.catering.app.account;
 
 import com.catering.app.account.request.EventProviderAccountCreateRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,8 @@ public class AccountController {
             @Valid EventProviderAccountCreateRequest eventProviderAccountCreateRequest,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            HttpSession session
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Nao foi possivel criar sua conta. Verifique os erros e tente novamente.");
@@ -39,7 +41,8 @@ public class AccountController {
         }
 
         try {
-            accountService.createEventProviderAccount(eventProviderAccountCreateRequest);
+            Long accountId = accountService.createEventProviderAccount(eventProviderAccountCreateRequest);
+            session.setAttribute(AccountSession.ACCOUNT_ID, accountId);
         } catch (DuplicateEmailException ex) {
             bindingResult.rejectValue("email", "account.email.duplicate", ex.getMessage());
             model.addAttribute("message", "Nao foi possivel criar sua conta. Verifique os erros e tente novamente.");

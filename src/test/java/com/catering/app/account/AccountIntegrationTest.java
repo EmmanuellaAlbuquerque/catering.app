@@ -9,12 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -36,11 +39,12 @@ class AccountIntegrationTest {
 
     @Test
     void shouldCreateOwnerAccountThroughHttpFlow() throws Exception {
-        mockMvc.perform(post("/accounts/sign-up/event-providers")
+        MvcResult result = mockMvc.perform(post("/accounts/sign-up/event-providers")
                         .param("email", "Dono@Buffet.com")
                         .param("password", "SenhaSegura123"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl("/events/create"));
+                .andExpect(redirectedUrl("/events/create"))
+                .andReturn();
 
         List<UserAccount> savedAccounts = accountRepository.findAll();
 
@@ -53,6 +57,8 @@ class AccountIntegrationTest {
         assertThat(savedAccount.getPasswordHash())
                 .isNotBlank()
                 .isNotEqualTo("SenhaSegura123");
+        assertThat(result.getRequest().getSession(false)).isNotNull();
+        assertThat(result.getRequest().getSession(false).getAttribute(AccountSession.ACCOUNT_ID)).isEqualTo(savedAccount.getId());
     }
 
     @Test
@@ -67,5 +73,15 @@ class AccountIntegrationTest {
                 .andExpect(model().attributeHasFieldErrors("eventProviderAccountCreateRequest", "email"));
 
         assertThat(accountRepository.findAll()).hasSize(1);
+    }
+
+    @Test
+    void shouldRedirectLoggedAccountWithoutProviderToCreatePage() throws Exception {
+        UserAccount account = accountRepository.save(new UserAccount("dono@buffet.com", "hash-existente", AccountType.EVENT_PROVIDER_OWNER));
+
+        mockMvc.perform(get("/")
+                        .sessionAttr(AccountSession.ACCOUNT_ID, account.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/events/create"));
     }
 }
