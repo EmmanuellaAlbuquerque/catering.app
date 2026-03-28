@@ -94,6 +94,14 @@ a {
     align-items: start;
 }
 
+.page-frame--auth {
+    grid-template-columns: minmax(280px, 400px) minmax(0, 760px);
+}
+
+.page-frame--single {
+    grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+}
+
 .page-hero {
     position: sticky;
     top: var(--space-xl);
@@ -544,6 +552,18 @@ input[type="button"] {
     justify-content: space-between;
     align-items: center;
     gap: var(--space-lg);
+    border-top: 1px solid rgba(145, 127, 112, 0.12);
+    background: rgba(247, 242, 234, 0.76);
+}
+
+.quick-actions-shell {
+    overflow: hidden;
+}
+
+.quick-actions {
+    padding: var(--space-2xl);
+    display: flex;
+    align-items: center;
     border-top: 1px solid rgba(145, 127, 112, 0.12);
     background: rgba(247, 242, 234, 0.76);
 }
