@@ -1,5 +1,6 @@
 package com.catering.app.eventprovider.domain;
 
+import com.catering.app.account.domain.UserAccount;
 import com.catering.app.eventprovider.domain.dto.AddressData;
 import com.catering.app.image.domain.EventProviderImage;
 import jakarta.persistence.*;
@@ -30,6 +31,10 @@ public class EventProvider {
 
     @Column(nullable = false)
     private String description;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_account_id", unique = true)
+    private UserAccount ownerAccount;
 
     @ElementCollection
     @CollectionTable(
@@ -141,6 +146,14 @@ public class EventProvider {
 
     public String getDescription() {
         return description;
+    }
+
+    public UserAccount getOwnerAccount() {
+        return ownerAccount;
+    }
+
+    public void assignOwnerAccount(UserAccount ownerAccount) {
+        this.ownerAccount = ownerAccount;
     }
 
     public Set<Phone> getPhones() {

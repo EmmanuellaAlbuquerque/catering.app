@@ -1,5 +1,8 @@
 package com.catering.app.eventprovider;
 
+import com.catering.app.account.AccountRepository;
+import com.catering.app.account.domain.AccountType;
+import com.catering.app.account.domain.UserAccount;
 import com.catering.app.common.config.storage.StorageService;
 import com.catering.app.eventprovider.domain.EventProvider;
 import com.catering.app.eventprovider.domain.dto.AddressData;
@@ -39,6 +42,9 @@ class EventProviderServiceTest {
     @Mock
     private StorageService storageService;
 
+    @Mock
+    private AccountRepository accountRepository;
+
     @InjectMocks
     private EventProviderService eventProviderService;
 
@@ -58,7 +64,7 @@ class EventProviderServiceTest {
         when(eventProviderMapper.createEntity(createRequest)).thenReturn(eventProvider);
         when(storageService.filterValidImages(createRequest.getImages())).thenReturn(List.of());
 
-        Long createdId = eventProviderService.create(createRequest);
+        Long createdId = eventProviderService.create(createRequest, null);
 
         assertThat(createdId).isEqualTo(10L);
         verify(eventProviderMapper).createEntity(createRequest);
@@ -86,7 +92,7 @@ class EventProviderServiceTest {
         when(storageService.filterValidImages(createRequest.getImages())).thenReturn(List.of(image));
         when(storageService.store(List.of(image))).thenReturn(List.of("foto-existente.jpg", "foto-nova.jpg"));
 
-        Long createdId = eventProviderService.create(createRequest);
+        Long createdId = eventProviderService.create(createRequest, null);
 
         assertThat(createdId).isEqualTo(11L);
         assertThat(eventProvider.getImages())
@@ -132,6 +138,33 @@ class EventProviderServiceTest {
         verify(storageService).filterValidImages(updateRequest.getImages());
         verify(eventProviderMapper).updateEntity(existingProvider, updateRequest);
         verify(storageService, never()).store(any(List.class));
+    }
+
+    @Test
+    void shouldAssignOwnerAccountWhenCreatingEventProvider() {
+        EventProviderCreateRequest createRequest = new EventProviderCreateRequest();
+        createRequest.setImages(List.of());
+
+        EventProvider eventProvider = new EventProvider(
+                "Atelier Gourmet",
+                "Atelier Gourmet LTDA",
+                "12.345.678/0001-90",
+                "Descricao"
+        );
+        ReflectionTestUtils.setField(eventProvider, "id", 18L);
+
+        UserAccount ownerAccount = new UserAccount("dono@buffet.com", "hash", AccountType.EVENT_PROVIDER_OWNER);
+
+        when(eventProviderMapper.createEntity(createRequest)).thenReturn(eventProvider);
+        when(storageService.filterValidImages(createRequest.getImages())).thenReturn(List.of());
+        when(accountRepository.findById(9L)).thenReturn(Optional.of(ownerAccount));
+
+        Long createdId = eventProviderService.create(createRequest, 9L);
+
+        assertThat(createdId).isEqualTo(18L);
+        assertThat(eventProvider.getOwnerAccount()).isSameAs(ownerAccount);
+        verify(accountRepository).findById(9L);
+        verify(eventProviderRepository).save(eventProvider);
     }
 
     @Test

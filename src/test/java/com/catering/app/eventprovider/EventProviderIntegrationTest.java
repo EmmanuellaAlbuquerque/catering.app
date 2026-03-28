@@ -1,5 +1,9 @@
 package com.catering.app.eventprovider;
 
+import com.catering.app.account.AccountRepository;
+import com.catering.app.account.AccountSession;
+import com.catering.app.account.domain.AccountType;
+import com.catering.app.account.domain.UserAccount;
 import com.catering.app.eventprovider.domain.Email;
 import com.catering.app.eventprovider.domain.EventProvider;
 import com.catering.app.eventprovider.domain.Phone;
@@ -34,14 +38,21 @@ class EventProviderIntegrationTest {
     @Autowired
     private EventProviderRepository eventProviderRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @BeforeEach
     void setUp() {
         eventProviderRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @Test
     void shouldCreateEventProviderThroughHttpFlow() throws Exception {
+        UserAccount account = accountRepository.save(new UserAccount("dono@atelier.com", "hash", AccountType.EVENT_PROVIDER_OWNER));
+
         MvcResult result = mockMvc.perform(multipart("/events/create")
+                        .sessionAttr(AccountSession.ACCOUNT_ID, account.getId())
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .param("tradingName", "Atelier Gourmet")
                         .param("companyName", "Atelier Gourmet LTDA")
@@ -67,6 +78,8 @@ class EventProviderIntegrationTest {
         assertThat(savedProvider.getCompanyName()).isEqualTo("Atelier Gourmet LTDA");
         assertThat(savedProvider.getRegistrationNumber()).isEqualTo("12.345.678/0001-90");
         assertThat(savedProvider.getDescription()).isEqualTo("Buffet especializado em casamentos e eventos corporativos.");
+        assertThat(savedProvider.getOwnerAccount()).isNotNull();
+        assertThat(savedProvider.getOwnerAccount().getId()).isEqualTo(account.getId());
         assertThat(savedProvider.getPhones())
                 .extracting(Phone::getNumber)
                 .containsExactlyInAnyOrder("(85) 99999-9999");
