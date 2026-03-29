@@ -23,13 +23,14 @@
             <div class="form-shell quick-actions-shell">
                 <header class="form-header">
                     <div class="form-header-copy">
-                        <span class="form-eyebrow">Primeiro acesso</span>
+                        <span class="form-eyebrow">Acesso</span>
                         <h2>${message}</h2>
-                        <p>Crie uma conta como fornecedor de eventos e siga para o cadastro adicional das suas informações.</p>
+                        <p>Entre na sua conta ou crie um novo acesso como fornecedor de eventos.</p>
                     </div>
                 </header>
 
                 <div class="quick-actions">
+                    <a class="btn-secondary" href="/accounts/login">Login</a>
                     <a class="btn-save" href="/accounts/sign-up/event-providers">Criar conta de fornecedor</a>
                 </div>
             </div>

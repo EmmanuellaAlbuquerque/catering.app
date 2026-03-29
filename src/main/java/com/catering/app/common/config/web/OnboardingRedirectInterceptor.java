@@ -40,6 +40,7 @@ public class OnboardingRedirectInterceptor implements HandlerInterceptor {
 
     private boolean isAllowedDuringOnboarding(String requestUri) {
         return requestUri.equals("/events/create")
+                || requestUri.equals("/accounts/sign-out")
                 || requestUri.startsWith("/accounts/sign-up/event-providers")
                 || requestUri.startsWith("/css/")
                 || requestUri.startsWith("/js/")

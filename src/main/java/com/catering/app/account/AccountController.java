@@ -1,5 +1,6 @@
 package com.catering.app.account;
 
+import com.catering.app.account.request.AccountLoginRequest;
 import com.catering.app.account.request.EventProviderAccountCreateRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -21,8 +22,44 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    @GetMapping("/login")
+    public String login(Model model, AccountLoginRequest accountLoginRequest, HttpSession session) {
+        if (session.getAttribute(AccountSession.ACCOUNT_ID) != null) {
+            return "redirect:/dashboard";
+        }
+
+        model.addAttribute("accountLoginRequest", accountLoginRequest);
+        return "account/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login(
+            @Valid AccountLoginRequest accountLoginRequest,
+            BindingResult bindingResult,
+            Model model,
+            HttpSession session
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("message", "Nao foi possivel entrar. Verifique os dados e tente novamente.");
+            return "account/loginForm";
+        }
+
+        try {
+            Long accountId = accountService.authenticate(accountLoginRequest);
+            session.setAttribute(AccountSession.ACCOUNT_ID, accountId);
+            return "redirect:/dashboard";
+        } catch (InvalidCredentialsException ex) {
+            model.addAttribute("message", ex.getMessage());
+            return "account/loginForm";
+        }
+    }
+
     @GetMapping("/sign-up/event-providers")
-    public String createEventProviderAccount(Model model, EventProviderAccountCreateRequest eventProviderAccountCreateRequest) {
+    public String createEventProviderAccount(Model model, EventProviderAccountCreateRequest eventProviderAccountCreateRequest, HttpSession session) {
+        if (session.getAttribute(AccountSession.ACCOUNT_ID) != null) {
+            return "redirect:/dashboard";
+        }
+
         model.addAttribute("eventProviderAccountCreateRequest", eventProviderAccountCreateRequest);
         return "account/eventProviderSignUpForm";
     }
@@ -51,5 +88,11 @@ public class AccountController {
 
         redirectAttributes.addFlashAttribute("message", "Conta criada com sucesso! Agora cadastre seu fornecedor de eventos.");
         return "redirect:/events/create";
+    }
+
+    @PostMapping("/sign-out")
+    public String signOut(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

@@ -2,6 +2,7 @@ package com.catering.app.account;
 
 import com.catering.app.account.domain.AccountType;
 import com.catering.app.account.domain.UserAccount;
+import com.catering.app.account.request.AccountLoginRequest;
 import com.catering.app.account.request.EventProviderAccountCreateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,20 @@ public class AccountService {
         );
 
         accountRepository.save(account);
+
+        return account.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public Long authenticate(AccountLoginRequest request) {
+        String normalizedEmail = UserAccount.normalizeEmail(request.getEmail());
+
+        UserAccount account = accountRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new InvalidCredentialsException("E-mail ou senha invalidos."));
+
+        if (!passwordHasher.matches(request.getPassword(), account.getPasswordHash())) {
+            throw new InvalidCredentialsException("E-mail ou senha invalidos.");
+        }
 
         return account.getId();
     }
