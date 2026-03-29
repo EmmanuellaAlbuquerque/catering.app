@@ -73,6 +73,17 @@ public class EventProviderService {
         return ownerAccountId != null && eventProviderRepository.findByOwnerAccountId(ownerAccountId).isPresent();
     }
 
+    public boolean ownsEventProvider(Long ownerAccountId, Long eventProviderId) {
+        if (ownerAccountId == null || eventProviderId == null) {
+            return false;
+        }
+
+        return eventProviderRepository.findByOwnerAccountId(ownerAccountId)
+                .map(EventProvider::getId)
+                .filter(eventProviderId::equals)
+                .isPresent();
+    }
+
     private void uploadImages(EventProviderBaseRequest eventProviderBaseRequest, EventProvider eventProvider) {
         List<MultipartFile> images = eventProviderBaseRequest.getImages();
         List<MultipartFile> validImages = storageService.filterValidImages(images);

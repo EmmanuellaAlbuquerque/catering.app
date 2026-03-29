@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 import static com.catering.app.account.AccountSession.ACCOUNT_ID;
 
 @Controller
@@ -63,7 +65,12 @@ public class EventProviderController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editEventProvider(Model model, @PathVariable Long id) {
+    public String editEventProvider(Model model, @PathVariable Long id, HttpSession session) {
+        Optional<String> redirectPath = resolveUnauthorizedEditRedirect(session, id);
+        if (redirectPath.isPresent()) {
+            return redirectPath.get();
+        }
+
         EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findById(id);
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
         model.addAttribute("paymentMethodOptions", PaymentMethod.values());
@@ -75,8 +82,14 @@ public class EventProviderController {
             @Valid EventProviderUpdateRequest eventProviderUpdateRequest,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            HttpSession session
     ) {
+        Optional<String> redirectPath = resolveUnauthorizedEditRedirect(session, eventProviderUpdateRequest.getId());
+        if (redirectPath.isPresent()) {
+            return redirectPath.get();
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
             model.addAttribute("paymentMethodOptions", PaymentMethod.values());
@@ -89,5 +102,24 @@ public class EventProviderController {
         redirectAttributes.addFlashAttribute("message", "Atualizado com sucesso!");
 
         return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();
+    }
+
+    private Optional<String> resolveUnauthorizedEditRedirect(HttpSession session, Long eventProviderId) {
+        Long accountId = (Long) session.getAttribute(ACCOUNT_ID);
+
+        if (accountId == null) {
+            return Optional.of("redirect:/accounts/sign-up/event-providers");
+        }
+
+        if (eventProviderService.ownsEventProvider(accountId, eventProviderId)) {
+            return Optional.empty();
+        }
+
+        if (eventProviderService.hasEventProviderForAccount(accountId)) {
+            EventProviderUpdateRequest eventProviderUpdateRequest = eventProviderService.findByOwnerAccountId(accountId);
+            return Optional.of("redirect:/events/edit/" + eventProviderUpdateRequest.getId());
+        }
+
+        return Optional.of("redirect:/events/create");
     }
 }
