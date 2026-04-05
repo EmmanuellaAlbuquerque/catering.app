@@ -48,6 +48,20 @@ Use this file as the project-specific operating guide for autonomous changes, bu
 - Avoid introducing unnecessary frameworks, helper layers, or generic base classes.
 - Preserve package boundaries by feature: `account`, `eventprovider`, `image`, `dashboard`, `home`, `common`.
 
+## Backend Engineering Expectations
+
+- Apply solid software engineering fundamentals with emphasis on:
+  - separation of responsibilities
+  - clear naming
+  - low cognitive load
+  - maintainable code paths
+- Keep controllers focused on HTTP concerns and delegate business rules to services.
+- Keep services cohesive and centered on application rules, orchestration, and invariants.
+- Keep repositories focused on persistence access only.
+- Prefer small, intention-revealing methods over long mixed-responsibility flows.
+- Avoid duplicating business rules across controller, service, mapper, and view layers.
+- When introducing new backend code, optimize for clarity first and cleverness last.
+
 ## Validation And Error Handling
 
 - Validation is driven by Spring + Jakarta Validation on request objects.
@@ -95,6 +109,11 @@ Use this file as the project-specific operating guide for autonomous changes, bu
 - Current form flows rely on Spring form binding with `modelAttribute`.
 - Preserve existing URL structure such as `/events/create`, `/events/edit`, `/accounts/login`, `/dashboard`.
 - Keep `pt-BR` as the document language for user-facing pages.
+- In frontend code, prefer modular, class-based JavaScript files for maintainability and reuse.
+- Even with plain HTML, CSS, JS, and JSP, structure behavior as reusable components with clear responsibilities.
+- Separate concerns between markup, styling, and behavior whenever practical.
+- New JavaScript should avoid becoming a large page script with mixed responsibilities; prefer focused classes or modules per feature.
+- Reuse existing frontend utilities and patterns before creating one-off scripts.
 
 ## UI Design Rules Already Established
 
@@ -142,6 +161,20 @@ On Windows PowerShell:
 
 - Run tests: `.\mvnw.cmd test`
 - Run app: `.\mvnw.cmd spring-boot:run`
+
+## Git And Commit Conventions
+
+- Use Conventional Commits for commit messages.
+- Prefer formats such as:
+  - `feat: ...`
+  - `fix: ...`
+  - `refactor: ...`
+  - `test: ...`
+  - `docs: ...`
+  - `style: ...`
+  - `chore: ...`
+- Keep commit messages short, specific, and scoped to the actual change.
+- Do not mix unrelated changes in the same commit when it can be avoided.
 
 ## What Agents Should Optimize For
 
