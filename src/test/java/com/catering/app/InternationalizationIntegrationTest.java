@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -80,6 +81,18 @@ class InternationalizationIntegrationTest {
 
         assertThat(bindingResult.getFieldError("email").getDefaultMessage()).isEqualTo("Enter your email.");
         assertThat(bindingResult.getFieldError("password").getDefaultMessage()).isEqualTo("Password must be between 8 and 72 characters.");
+    }
+
+    @Test
+    void shouldRenderLocaleSwitcherWithPublicLoginRoute() throws Exception {
+        mockMvc.perform(get("/accounts/login")
+                        .param("email", "owner@buffet.com")
+                        .param("password", "SenhaSegura123")
+                        .param("lang", "en"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("action=\"/accounts/login\"")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("name=\"email\" value=\"owner@buffet.com\"")))
+                .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("/WEB-INF/views/account/loginForm.jsp"))));
     }
 
     @Test

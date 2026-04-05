@@ -3,7 +3,10 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 
 <div class="locale-switcher-wrapper">
-    <form method="get" action="${pageContext.request.requestURI}" class="locale-switcher">
+    <c:set var="localeSwitcherAction"
+           value="${requestScope['jakarta.servlet.forward.request_uri'] ne null ? requestScope['jakarta.servlet.forward.request_uri'] : pageContext.request.requestURI}" />
+
+    <form method="get" action="${localeSwitcherAction}" class="locale-switcher">
         <c:forEach items="${pageContext.request.parameterMap}" var="parameter">
             <c:if test="${parameter.key ne 'lang'}">
                 <input type="hidden" name="${parameter.key}" value="${parameter.value[0]}" />
