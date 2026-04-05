@@ -67,8 +67,7 @@ class AccountServiceTest {
         when(accountRepository.existsByEmail("dono@buffet.com")).thenReturn(true);
 
         assertThatThrownBy(() -> accountService.createEventProviderAccount(request))
-                .isInstanceOf(DuplicateEmailException.class)
-                .hasMessageContaining("e-mail");
+                .isInstanceOf(DuplicateEmailException.class);
     }
 
     @Test
@@ -99,7 +98,6 @@ class AccountServiceTest {
         when(passwordHasher.matches("SenhaErrada123", "hashed-password")).thenReturn(false);
 
         assertThatThrownBy(() -> accountService.authenticate(request))
-                .isInstanceOf(InvalidCredentialsException.class)
-                .hasMessageContaining("invalidos");
+                .isInstanceOf(InvalidCredentialsException.class);
     }
 }

@@ -103,18 +103,22 @@ class EventProviderIntegrationTest {
 
     @Test
     void shouldEditEventProviderThroughHttpFlow() throws Exception {
+        UserAccount ownerAccount = accountRepository.save(new UserAccount("owner@buffet.com", "hash", AccountType.EVENT_PROVIDER_OWNER));
+
         EventProvider existingProvider = new EventProvider(
                 "Buffet Original",
                 "Buffet Original LTDA",
                 "98.765.432/0001-10",
                 "Descricao inicial do fornecedor."
         );
+        existingProvider.assignOwnerAccount(ownerAccount);
         existingProvider.addPhone("(85) 98888-1111");
         existingProvider.addEmail("original@buffet.com");
         existingProvider.addAddress(new AddressData("Centro", "CE", "Fortaleza", "60000-000"));
         eventProviderRepository.save(existingProvider);
 
         mockMvc.perform(multipart("/events/edit")
+                        .sessionAttr(AccountSession.ACCOUNT_ID, ownerAccount.getId())
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .param("id", existingProvider.getId().toString())
                         .param("tradingName", "Buffet Atualizado")

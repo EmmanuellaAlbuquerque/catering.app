@@ -3,6 +3,7 @@ class ImageUpload {
         this.uploadArea = document.getElementById("drop-zone-main");
         this.fileInput = document.getElementById("imageInputMain");
         this.photoGrid = document.getElementById("gallery-main");
+        this.imageAltText = this.uploadArea?.dataset.imageAlt ?? "";
 
         this.init();
     }
@@ -57,6 +58,7 @@ class ImageUpload {
 
                 const img = document.createElement("img");
                 img.src = event.target.result;
+                img.alt = this.imageAltText;
 
                 item.appendChild(img);
                 this.photoGrid.appendChild(item);

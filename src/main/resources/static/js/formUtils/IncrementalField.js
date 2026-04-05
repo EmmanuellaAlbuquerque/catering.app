@@ -1,11 +1,12 @@
 class IncrementalField {
-    constructor(name, label, inputTextContent, type, limit, placeholder, maxLength = null) {
+    constructor(name, label, inputTextContent, type, limit, placeholder, removeButtonText, maxLength = null) {
         this.inputTextContent = inputTextContent;
         this.name = name;
         this.label = label;
         this.type = type;
         this.limit = limit;
         this.placeholder = placeholder;
+        this.removeButtonText = removeButtonText;
         this.maxLength = maxLength;
         this.init();
     }
@@ -23,7 +24,7 @@ class IncrementalField {
         if (index >= this.limit) return;
 
         const label = document.createElement("label");
-        label.textContent = this.inputTextContent + ' ' +  (index + 1);
+        label.textContent = `${this.inputTextContent} ${index + 1}`;
 
         const input = document.createElement("input");
         input.type = this.type;
@@ -34,60 +35,51 @@ class IncrementalField {
             input.maxLength = this.maxLength;
         }
 
-        const phoneContainer = document.createElement("div");
-        phoneContainer.className = 'input-group-dynamic';
-        phoneContainer.appendChild(label);
-        phoneContainer.appendChild(input);
+        const container = document.createElement("div");
+        container.className = "input-group-dynamic";
+        container.appendChild(label);
+        container.appendChild(input);
 
-        this.list.appendChild(phoneContainer);
-        this.addRemoveButton(phoneContainer);
+        this.list.appendChild(container);
+        this.addRemoveButton(container);
         this.updateInputMetadata();
 
         const currentInputs = this.list.querySelectorAll(`.${this.label}-input`).length;
-        if (currentInputs >= this.limit) {
-            this.addInputButton.style.display = "none";
-            return;
-        }
-
-        this.addInputButton.style.display = "inline-block";
+        this.addInputButton.style.display = currentInputs >= this.limit ? "none" : "inline-block";
     }
 
     addRemoveButtonToListElements() {
         this.list = document.getElementById(`${this.name}-inputs-list`);
 
-        const inputDivs = this.list.querySelectorAll('div');
+        const inputDivs = this.list.querySelectorAll("div");
         inputDivs.forEach(inputDiv => this.addRemoveButton(inputDiv));
     }
 
     addRemoveButton(inputDiv) {
-        const removeBtn = document.createElement('button');
-        removeBtn.innerText = 'Remover';
-        removeBtn.type = 'button';
-        removeBtn.className = 'btn-remove';
+        const removeBtn = document.createElement("button");
+        removeBtn.innerText = this.removeButtonText;
+        removeBtn.type = "button";
+        removeBtn.className = "btn-remove";
         removeBtn.onclick = () => {
             inputDiv.remove();
             this.updateInputMetadata();
             this.addInputButton.style.display = "inline-block";
         };
-        const input = inputDiv.querySelector('input');
-        input.insertAdjacentElement('afterend', removeBtn);
+
+        const input = inputDiv.querySelector("input");
+        input.insertAdjacentElement("afterend", removeBtn);
     }
 
     updateInputMetadata() {
-        const inputGroups = this.list.querySelectorAll('.input-group-dynamic');
+        const inputGroups = this.list.querySelectorAll(".input-group-dynamic");
         inputGroups.forEach((inputGroup, index) => {
-            const label = inputGroup.querySelector('label');
-            const input = inputGroup.querySelector('input');
+            const label = inputGroup.querySelector("label");
+            const input = inputGroup.querySelector("input");
 
             label.textContent = `${this.inputTextContent} ${index + 1}`;
             input.name = `${this.name}[${index}]`;
         });
 
-        if (inputGroups.length < this.limit) {
-            this.addInputButton.style.display = "inline-block";
-            return;
-        }
-
-        this.addInputButton.style.display = "none";
+        this.addInputButton.style.display = inputGroups.length < this.limit ? "inline-block" : "none";
     }
 }

@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 
 public class AccountLoginRequest {
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "{validation.accountLoginRequest.email.notBlank}")
+    @Email(message = "{validation.accountLoginRequest.email.email}")
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 72)
+    @NotBlank(message = "{validation.accountLoginRequest.password.notBlank}")
+    @Size(min = 8, max = 72, message = "{validation.accountLoginRequest.password.size}")
     private String password;
 
     public String getEmail() {

@@ -5,40 +5,51 @@
 <%@ taglib prefix="shared" tagdir="/WEB-INF/tags/shared" %>
 <%@ taglib prefix="eventProvider" tagdir="/WEB-INF/tags/eventProvider" %>
 
+<c:set var="htmlLang" value="${pageContext.response.locale.language eq 'pt' ? 'pt-BR' : pageContext.response.locale.language}" />
+
 <!doctype html>
-<html lang="pt-BR">
+<html lang="${htmlLang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario de Cadastro do Fornecedor de Eventos</title>
+    <title><spring:message code="eventProvider.edit.title" /></title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="event-page">
     <main class="page-frame">
+        <section class="page-topbar">
+            <shared:localeSwitcher />
+        </section>
+
         <section class="page-hero">
-            <span class="page-kicker">Catering Platform</span>
-            <h1>Atualize fornecedores com mais clareza e controle.</h1>
-            <p>Revise dados, contatos e imagens em uma tela mais clara para manter o cadastro sempre completo e consistente.</p>
+            <span class="page-kicker"><spring:message code="common.platformName" /></span>
+            <h1><spring:message code="eventProvider.edit.hero.title" /></h1>
+            <p><spring:message code="eventProvider.edit.hero.description" /></p>
 
             <div class="hero-points">
                 <div class="hero-point">
-                    <strong>Edição mais simples</strong>
-                    <span>Os dados foram organizados em seções para facilitar ajustes no dia a dia.</span>
+                    <strong><spring:message code="eventProvider.edit.hero.point1.title" /></strong>
+                    <span><spring:message code="eventProvider.edit.hero.point1.description" /></span>
                 </div>
                 <div class="hero-point">
-                    <strong>Informações mais consistentes</strong>
-                    <span>O formulário ajuda a manter contato e endereço preenchidos de forma mais padronizada.</span>
+                    <strong><spring:message code="eventProvider.edit.hero.point2.title" /></strong>
+                    <span><spring:message code="eventProvider.edit.hero.point2.description" /></span>
                 </div>
                 <div class="hero-point">
-                    <strong>Galeria mais clara</strong>
-                    <span>As fotos atuais e os novos uploads ficam mais visíveis e fáceis de revisar.</span>
+                    <strong><spring:message code="eventProvider.edit.hero.point3.title" /></strong>
+                    <span><spring:message code="eventProvider.edit.hero.point3.description" /></span>
                 </div>
             </div>
         </section>
 
         <section class="page-content">
             <form:form cssClass="event-form" modelAttribute="eventProviderUpdateRequest" method="post" action="/events/edit" enctype="multipart/form-data">
-                <eventProvider:eventProviderForm modelAttrName="eventProviderUpdateRequest" isEdit="true" formMessageText="Dados do fornecedor (${eventProviderUpdateRequest.id})" />
+                <eventProvider:eventProviderForm
+                        modelAttrName="eventProviderUpdateRequest"
+                        isEdit="true"
+                        formMessageCode="eventProvider.edit.form.title"
+                        formMessageArguments="${eventProviderUpdateRequest.id}"
+                />
             </form:form>
         </section>
     </main>

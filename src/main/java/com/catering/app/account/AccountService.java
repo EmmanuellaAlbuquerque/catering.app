@@ -23,7 +23,7 @@ public class AccountService {
         String normalizedEmail = UserAccount.normalizeEmail(request.getEmail());
 
         if (accountRepository.existsByEmail(normalizedEmail)) {
-            throw new DuplicateEmailException("Ja existe uma conta cadastrada com este e-mail.");
+            throw new DuplicateEmailException();
         }
 
         UserAccount account = new UserAccount(
@@ -42,10 +42,10 @@ public class AccountService {
         String normalizedEmail = UserAccount.normalizeEmail(request.getEmail());
 
         UserAccount account = accountRepository.findByEmail(normalizedEmail)
-                .orElseThrow(() -> new InvalidCredentialsException("E-mail ou senha invalidos."));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordHasher.matches(request.getPassword(), account.getPasswordHash())) {
-            throw new InvalidCredentialsException("E-mail ou senha invalidos.");
+            throw new InvalidCredentialsException();
         }
 
         return account.getId();
