@@ -84,4 +84,26 @@ class AccountIntegrationTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/events/create"));
     }
+
+    @Test
+    void shouldSignOutAndReturnToHome() throws Exception {
+        UserAccount account = accountRepository.save(new UserAccount("dono@buffet.com", "hash-existente", AccountType.EVENT_PROVIDER_OWNER));
+
+        mockMvc.perform(post("/accounts/sign-out")
+                        .sessionAttr(AccountSession.ACCOUNT_ID, account.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+    }
+
+    @Test
+    void shouldLoginWithValidCredentials() throws Exception {
+        PasswordHasher passwordHasher = new PasswordHasher();
+        accountRepository.save(new UserAccount("dono@buffet.com", passwordHasher.hash("SenhaSegura123"), AccountType.EVENT_PROVIDER_OWNER));
+
+        mockMvc.perform(post("/accounts/login")
+                        .param("email", "dono@buffet.com")
+                        .param("password", "SenhaSegura123"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/dashboard"));
+    }
 }

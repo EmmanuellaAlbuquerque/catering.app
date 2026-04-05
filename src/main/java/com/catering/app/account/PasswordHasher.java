@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -23,6 +24,20 @@ public class PasswordHasher {
         byte[] hash = deriveKey(rawPassword, salt, ITERATIONS, KEY_LENGTH);
 
         return "pbkdf2$" + ITERATIONS + "$" + Base64.getEncoder().encodeToString(salt) + "$" + Base64.getEncoder().encodeToString(hash);
+    }
+
+    public boolean matches(String rawPassword, String storedHash) {
+        String[] parts = storedHash.split("\\$");
+        if (parts.length != 4 || !"pbkdf2".equals(parts[0])) {
+            return false;
+        }
+
+        int iterations = Integer.parseInt(parts[1]);
+        byte[] salt = Base64.getDecoder().decode(parts[2]);
+        byte[] expectedHash = Base64.getDecoder().decode(parts[3]);
+        byte[] actualHash = deriveKey(rawPassword, salt, iterations, expectedHash.length * 8);
+
+        return MessageDigest.isEqual(expectedHash, actualHash);
     }
 
     private byte[] deriveKey(String rawPassword, byte[] salt, int iterations, int keyLength) {

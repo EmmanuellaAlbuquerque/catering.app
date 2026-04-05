@@ -102,6 +102,13 @@ a {
     grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
 }
 
+.page-topbar {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: calc(var(--space-lg) * -0.25);
+}
+
 .page-hero {
     position: sticky;
     top: var(--space-xl);
@@ -648,6 +655,7 @@ input[type="button"] {
     padding: var(--space-2xl);
     display: flex;
     align-items: center;
+    gap: var(--space-md);
     border-top: 1px solid rgba(145, 127, 112, 0.12);
     background: rgba(247, 242, 234, 0.76);
 }
@@ -672,6 +680,47 @@ input[type="button"] {
 
 .btn-save:hover {
     box-shadow: 0 22px 32px rgba(47, 74, 61, 0.28);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(47, 74, 61, 0.18);
+    background: rgba(255, 253, 249, 0.72);
+    color: var(--color-primary);
+    font-size: 0.96rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-1px);
+    border-color: rgba(47, 74, 61, 0.36);
+    background: rgba(255, 253, 249, 0.92);
+}
+
+.btn-ghost {
+    border: 1px solid rgba(47, 74, 61, 0.18);
+    background: rgba(255, 253, 249, 0.72);
+    color: var(--color-primary);
+    padding: 0.8rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+}
+
+.btn-ghost:hover {
+    transform: translateY(-1px);
+    border-color: rgba(47, 74, 61, 0.36);
+    background: rgba(255, 253, 249, 0.92);
 }
 
 @keyframes fadeUp {
