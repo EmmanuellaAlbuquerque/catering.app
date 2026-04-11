@@ -40,7 +40,7 @@ public class AccountController {
             HttpSession session
     ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Nao foi possivel entrar. Verifique os dados e tente novamente.");
+            model.addAttribute("messageCode", "account.login.feedback.invalidForm");
             return "account/loginForm";
         }
 
@@ -49,7 +49,7 @@ public class AccountController {
             session.setAttribute(AccountSession.ACCOUNT_ID, accountId);
             return "redirect:/dashboard";
         } catch (InvalidCredentialsException ex) {
-            model.addAttribute("message", ex.getMessage());
+            model.addAttribute("messageCode", "account.login.feedback.invalidCredentials");
             return "account/loginForm";
         }
     }
@@ -73,7 +73,7 @@ public class AccountController {
             HttpSession session
     ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Nao foi possivel criar sua conta. Verifique os erros e tente novamente.");
+            model.addAttribute("messageCode", "account.signup.feedback.invalidForm");
             return "account/eventProviderSignUpForm";
         }
 
@@ -81,12 +81,12 @@ public class AccountController {
             Long accountId = accountService.createEventProviderAccount(eventProviderAccountCreateRequest);
             session.setAttribute(AccountSession.ACCOUNT_ID, accountId);
         } catch (DuplicateEmailException ex) {
-            bindingResult.rejectValue("email", "account.email.duplicate", ex.getMessage());
-            model.addAttribute("message", "Nao foi possivel criar sua conta. Verifique os erros e tente novamente.");
+            bindingResult.rejectValue("email", "account.signup.feedback.duplicateEmail");
+            model.addAttribute("messageCode", "account.signup.feedback.invalidForm");
             return "account/eventProviderSignUpForm";
         }
 
-        redirectAttributes.addFlashAttribute("message", "Conta criada com sucesso! Agora cadastre seu fornecedor de eventos.");
+        redirectAttributes.addFlashAttribute("messageCode", "account.signup.feedback.success");
         return "redirect:/events/create";
     }
 

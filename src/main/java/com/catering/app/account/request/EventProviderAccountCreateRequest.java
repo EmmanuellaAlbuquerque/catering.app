@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 
 public class EventProviderAccountCreateRequest {
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "{validation.eventProviderAccountCreateRequest.email.notBlank}")
+    @Email(message = "{validation.eventProviderAccountCreateRequest.email.email}")
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 72)
+    @NotBlank(message = "{validation.eventProviderAccountCreateRequest.password.notBlank}")
+    @Size(min = 8, max = 72, message = "{validation.eventProviderAccountCreateRequest.password.size}")
     private String password;
 
     public String getEmail() {

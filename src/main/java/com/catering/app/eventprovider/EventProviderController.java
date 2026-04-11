@@ -50,7 +50,7 @@ public class EventProviderController {
             HttpSession session
     ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
+            model.addAttribute("messageCode", "eventProvider.feedback.invalidForm");
             model.addAttribute("paymentMethodOptions", PaymentMethod.values());
             return "eventProvider/eventProviderCreateForm";
         }
@@ -59,7 +59,7 @@ public class EventProviderController {
         Long savedId = eventProviderService.create(eventProviderCreateRequest, accountId);
 
         model.addAttribute("eventProviderCreateDto", eventProviderCreateRequest);
-        redirectAttributes.addFlashAttribute("message", "Criado com sucesso!");
+        redirectAttributes.addFlashAttribute("messageCode", "eventProvider.create.feedback.success");
 
         return "redirect:/events/edit/" + savedId;
     }
@@ -91,7 +91,7 @@ public class EventProviderController {
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Nao foi possivel salvar as alteracoes. Verifique os erros e tente novamente.");
+            model.addAttribute("messageCode", "eventProvider.feedback.invalidForm");
             model.addAttribute("paymentMethodOptions", PaymentMethod.values());
             return "eventProvider/eventProviderEditForm";
         }
@@ -99,7 +99,7 @@ public class EventProviderController {
         eventProviderService.update(eventProviderUpdateRequest);
 
         model.addAttribute("eventProviderUpdateRequest", eventProviderUpdateRequest);
-        redirectAttributes.addFlashAttribute("message", "Atualizado com sucesso!");
+        redirectAttributes.addFlashAttribute("messageCode", "eventProvider.edit.feedback.success");
 
         return "redirect:/events/edit/" + eventProviderUpdateRequest.getId();
     }

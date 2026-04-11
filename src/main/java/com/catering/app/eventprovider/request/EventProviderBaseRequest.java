@@ -12,40 +12,46 @@ import java.util.List;
 
 public abstract class EventProviderBaseRequest {
 
-    @NotBlank
+    @NotBlank(message = "{validation.eventProviderRequest.tradingName.notBlank}")
     protected String tradingName;
 
-    @NotBlank
+    @NotBlank(message = "{validation.eventProviderRequest.companyName.notBlank}")
     protected String companyName;
 
-    @NotBlank
+    @NotBlank(message = "{validation.eventProviderRequest.registrationNumber.notBlank}")
     protected String registrationNumber;
 
-    @NotBlank
-    @Size(max = 500)
+    @NotBlank(message = "{validation.eventProviderRequest.description.notBlank}")
+    @Size(max = 500, message = "{validation.eventProviderRequest.description.size}")
     protected String description;
 
-    @NotEmpty
-    protected List<@NotBlank @Pattern(regexp = "^\\(\\d{2}\\) \\d{4,5}-\\d{4}$") String> phones = new ArrayList<>();
+    @NotEmpty(message = "{validation.eventProviderRequest.phones.notEmpty}")
+    protected List<
+            @NotBlank(message = "{validation.eventProviderRequest.phone.notBlank}")
+            @Pattern(
+                    regexp = "^\\(\\d{2}\\) \\d{4,5}-\\d{4}$",
+                    message = "{validation.eventProviderRequest.phone.pattern}"
+            ) String
+            > phones = new ArrayList<>();
 
-    @NotEmpty
+    @NotEmpty(message = "{validation.eventProviderRequest.emails.notEmpty}")
     protected List<String> emails = new ArrayList<>();
 
-    @NotBlank
+    @NotBlank(message = "{validation.eventProviderRequest.neighborhood.notBlank}")
     protected String neighborhood;
 
-    @NotBlank
-    @Pattern(regexp = "^[A-Za-z]{2}$")
+    @NotBlank(message = "{validation.eventProviderRequest.state.notBlank}")
+    @Pattern(regexp = "^[A-Za-z]{2}$", message = "{validation.eventProviderRequest.state.pattern}")
     protected String state;
 
-    @NotBlank
+    @NotBlank(message = "{validation.eventProviderRequest.city.notBlank}")
     protected String city;
 
-    @NotBlank
-    @Pattern(regexp = "^\\d{5}-\\d{3}$")
+    @NotBlank(message = "{validation.eventProviderRequest.zipCode.notBlank}")
+    @Pattern(regexp = "^\\d{5}-\\d{3}$", message = "{validation.eventProviderRequest.zipCode.pattern}")
     protected String zipCode;
 
-    @NotEmpty
+    @NotEmpty(message = "{validation.eventProviderRequest.paymentMethods.notEmpty}")
     protected List<PaymentMethod> paymentMethods = new ArrayList<>();
 
     protected List<MultipartFile> images = new ArrayList<>();
